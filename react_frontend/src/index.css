@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ 
+:root {
+    --text-color: #475569;
+    --text-dark-color: #1e293b;
+    --theme-color: #f9fafb;
+    --bg-color: #1e293b;
+    --app-color: #fac802;
+}
+
+:dark-theme {
+    --text-color: #f8fafc;
+    --text-dark-color: #f9fafb;
+    --theme-color: #1e293b;
+    --bg-color: #f9fafb;
+    --app-color: #fac802;
+}
+
+

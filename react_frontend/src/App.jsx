@@ -1,7 +1,20 @@
+import {
+	BrowserRouter,
+	Routes,
+	Route,
+	Link
+} from 'react-router-dom';
+import Dashboard from './Dashboard/Dashboard';
+
+
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Dashboard/>} />
+    </Routes>
+  </BrowserRouter>
+
   )
 }
