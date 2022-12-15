@@ -22,7 +22,7 @@ const CustomCard = ({ profilePics, title, author, date, category }) => {
 }
 const DashboardRightNav = () => {
   return (
-    <div>
+    <div  className='lg:w-[25vw] w-full'>
        <section id="recentposts">
         <h2 className='text-text-color font-bold text-lg'>Recent Posts</h2>
         {
@@ -37,7 +37,7 @@ const DashboardRightNav = () => {
           ))
         }
        </section>
-       <section>
+       <section id='trendingposts'>
         <h2 className='text-text-color font-bold text-lg mt-8'>Trending Posts</h2>
         {
           TrendingPostData.map((dataItems, index) => (

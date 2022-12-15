@@ -1,6 +1,8 @@
 import React from 'react';
 import {AiOutlineSearch} from 'react-icons/ai';
 import { UserPostData } from './UserPostsData';
+import { AnalyticsCardData } from './AnalyticsCardData';
+import DashBoardGraph from './DashBoardGraph';
 
 const TableCell = ({tableText}) => {
     return ( <td className='items-left max-w-[250px] p-2'>{tableText}</td> )
@@ -29,19 +31,19 @@ const TableRow = ({postNo, title, category, subcategory, body, likes}) => {
 }
 const DashboardMain = () => {
   return (
-    <div>
+    <div className=''>
         <div>
             <input type="text" />
             <span><AiOutlineSearch/></span>
         </div>
 
-        <section>
-            <h2>Text Editor</h2>
+        <section id='newpost'>
+            <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>New Post</h2>
 
         </section>
 
-        <section>
-            <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>Recent Posts</h2>
+        <section id='myposts'>
+            <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>My Posts</h2>
             <table className='px-4 w-fit shadow-lg mx-4'>
                 <thead className='text-theme-color bg-text-color font-bold text-base w-fit items-left justify-left px-4'>
                     <tr> 
@@ -55,7 +57,7 @@ const DashboardMain = () => {
                 </thead>
                 <tbody>
                     {
-                        UserPostData.map((dataItem, index) => (
+                        UserPostData.slice(0,5).map((dataItem, index) => (
                             <TableRow key={index} 
                                 postNo={index+1}
                                 title ={dataItem.title}
@@ -70,8 +72,28 @@ const DashboardMain = () => {
             </table>
         </section>
 
-        <section>
-            <h2>Analytics</h2>
+        <section id='analytics'>
+            <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>Analytics</h2>
+            <div className='flex flex-row gap-4 items-center text-text-color p- mb-8'>
+                {
+                    AnalyticsCardData.map((dataItem, index) => 
+                        <div key={index} className='items-center text-text-color p-4 shadow-lg rounded mb-4 w-fit'>
+                            <span className='flex justify-center py-2 text-2xl font-black text-app-color'><dataItem.icon/></span>
+                            <div className='flex flex-row gap-2 items-center justify-between'>
+                                <p className='font-medium text-base'>{dataItem.title}</p>
+                                <p className='text-blue-500 text-sm i'>{dataItem.score}</p>
+                            </div>
+                        </div>
+                    )
+                }
+
+            </div>
+
+            <div>
+                <h3 className='text-text-color font-bold text-base mb-8'> Graph</h3>
+                <DashBoardGraph/>
+
+            </div>
         </section>
         
 
