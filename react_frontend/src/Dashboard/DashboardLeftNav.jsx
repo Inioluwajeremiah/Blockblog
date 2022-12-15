@@ -22,7 +22,7 @@ const DashboardLeftNav = () => {
   return (
     <div>
         <h1 className='text-center p-4 text-text-color tracking-wide font-black text-lg'>Dashboard</h1>
-        <ul className='overflow-y-scroll height-[100vh] p-4 ' >
+        <ul className='overflow-y-scroll max-h-screen p-4 ' >
             <NavItem icon={<AiOutlineHome/>} title="Home"/>
             <NavItem icon={<TiWeatherStormy/>} title="Climate" />
             <NavItem icon={<MdOutlineSchool/>} title="Education" />
