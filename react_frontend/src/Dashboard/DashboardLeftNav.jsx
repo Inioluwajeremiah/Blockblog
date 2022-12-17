@@ -22,20 +22,6 @@ const DashboardLeftNav = () => {
   return (
     <div>
         <h1 className='text-center p-4 text-text-color tracking-wide font-black text-lg'>Dashboard</h1>
-<<<<<<< HEAD
-        <ul className='overflow-y-scroll height-[100vh] p-4 ' >
-            <NavItem icon={<AiOutlineHome/>} title="Home"/>
-            <NavItem icon={<MdOutlineSchool/>} title="Academy" />
-            <NavItem icon={<TiWeatherStormy/>} title="Climate" />
-            <NavItem icon={<AiOutlineBank/>} title="Finance" />
-            <NavItem icon={<RiGovernmentLine/>} title="Politics" />
-            <NavItem icon={<FaRobot/>} title="Technology" />
-            <NavItem icon={<AiOutlineEdit/>} title="New Post" />
-            <NavItem icon={<GoChecklist/>} title="My Posts" />
-            <NavItem icon={<IoAnalyticsOutline/>} title="Analytics" />
-            <NavItem icon={<GoChecklist/>} title="Recent Posts" />
-            <NavItem icon={<GoChecklist/>} title="Trending Posts" />
-=======
         <ul className='overflow-y-scroll max-h-screen p-4 ' >
             <NavItem icon={<AiOutlineHome/>} title="Home" link=""/>
             <NavItem icon={<MdOutlineSchool/>} title="Academy" link="academy" />
@@ -48,7 +34,6 @@ const DashboardLeftNav = () => {
             <NavItem icon={<IoAnalyticsOutline/>} title="Analytics" link="#analytics" />
             <NavItem icon={<GoChecklist/>} title="Recent Posts" link="#recentposts" />
             <NavItem icon={<GoChecklist/>} title="Trending Posts" link="#trendingposts" />
->>>>>>> b17211c59ed1196accdf324d53a6dd676a6f2e14
             <NavItem icon={<FiLogOut/>} title="SignOut" />
         </ul>   
 

@@ -1,38 +1,8 @@
 import React from 'react';
 import {AiOutlineSearch} from 'react-icons/ai';
-<<<<<<< HEAD
-import { useState } from 'react';
-import { SelectionData , ClimateSubCategory, TechnologySubCategory, PoliticsSubCategory} from './SelectionData';
-import { AcademySubCategory, FinanceSubCategory } from './SelectionData';
-import {Editor, EditorState} from 'draft-js';
-import 'draft-js/dist/Draft.css';
-
-const TextInput = ({inputType, placeholder, ...rest}) => {
-    return (
-        <div>
-            <input type={inputType} placeholder={placeholder} {...rest} />
-        </div>
-    )
-}
-const TextLabel = ({title}) => {
-    return(
-        <p>{title}</p>
-    )
-   
-}
-
-const SelectOption = ({optionValue, optionLabel, selectedValue, handleChange }) => {
-    return (
-        <select value={selectedValue} onChange={handleChange}>
-            <option value={optionValue}>{optionLabel}</option>
-        </select>
-    )
-}
-=======
 import { UserPostData } from './UserPostsData';
 import { AnalyticsCardData } from './AnalyticsCardData';
 import DashBoardGraph from './DashBoardGraph';
->>>>>>> b17211c59ed1196accdf324d53a6dd676a6f2e14
 
 const TableCell = ({tableText}) => {
     return ( <td className='items-left max-w-[250px] p-2'>{tableText}</td> )
@@ -79,111 +49,8 @@ const DashboardMain = () => {
             <span><AiOutlineSearch/></span>
         </div>
 
-<<<<<<< HEAD
-        <section id="newpost">
-            <div>
-                <h2>New Post</h2>
-                <p>Select category</p>
-                <select
-                    onChange={(event) => changeCategory(event.target.value)}
-                    value={currentCategory}>
-                        {
-                            SelectionData.map((Items, key) =>(
-                                
-                            <option key={key} value={Items.value}>{Items.label}</option>
-                        ))}
-                </select>
-
-                <TextLabel title="Select category"/>
-                {
-                        currentCategory == "Academy"
-                    ? 
-                        <select 
-                            onChange={(event) => changeSubCategory(event.target.value)}
-                            value={currentSubCategory}>
-                                {
-                                    
-                                AcademySubCategory.map((SubItems , index) =>(
-                                        <option key={index} value={SubItems.value}>{SubItems.label}</option>
-                                ))} 
-                        </select>   
-                    :
-                        currentCategory == "Climate"
-                    ?
-                        <select 
-                            onChange={(event) => changeSubCategory(event.target.value)}
-                            value={currentSubCategory}>
-                                {
-                                    
-                                    ClimateSubCategory.map((SubItems , index) =>(
-                                        <option key={index} value={SubItems.value}>{SubItems.label}</option>
-                                ))} 
-                        </select> 
-                    :
-                        currentCategory == "Finance"
-                        ?
-                            <select 
-                                onChange={(event) => changeSubCategory(event.target.value)}
-                                value={currentSubCategory}>
-                                    {
-                                        
-                                    FinanceSubCategory.map((SubItems , index) =>(
-                                            <option key={index} value={SubItems.value}>{SubItems.label}</option>
-                                    ))} 
-                            </select> 
-                    :
-                    currentCategory == "Politics"
-                    ?
-                        <select 
-                            onChange={(event) => changeSubCategory(event.target.value)}
-                            value={currentSubCategory}>
-                                {
-                                    
-                                PoliticsSubCategory.map((SubItems , index) =>(
-                                        <option key={index} value={SubItems.value}>{SubItems.label}</option>
-                                ))} 
-                        </select> 
-                    :
-                    currentCategory == "Technology"
-                    ?
-                        <select 
-                            onChange={(event) => changeSubCategory(event.target.value)}
-                            value={currentSubCategory}>
-                                {
-                                    
-                                TechnologySubCategory.map((SubItems , index) =>(
-                                        <option key={index} value={SubItems.value}>{SubItems.label}</option>
-                                ))} 
-                        </select> 
-                    :
-                        <select 
-                            onChange={(event) => changeSubCategory(event.target.value)}
-                            value={currentSubCategory}>
-                                {
-                                    
-                                AcademySubCategory.map((SubItems , index) =>(
-                                        <option key={index} value={SubItems.value}>{SubItems.label}</option>
-                                ))} 
-                        </select>  
-                }
-
-                <TextLabel title="Title"/>
-                <TextInput type='text' placeholder="Post title" />
-                <TextLabel title="Select picture"/>
-                <input type="file"  accept="image/png, image/jpeg, image/jpg"/>
-                <TextLabel title="Post details"/>
-                <Editor editorState={editorState} onChange={setEditorState} />
-
-                <input type="submit" value="Submit"/>
-
-                       
-            </div>
-            
-
-=======
         <section id='newpost'>
             <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>New Post</h2>
->>>>>>> b17211c59ed1196accdf324d53a6dd676a6f2e14
 
         </section>
 
