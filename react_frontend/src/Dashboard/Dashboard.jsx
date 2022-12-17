@@ -7,7 +7,7 @@ const Dashboard = () => {
   return (
     <div className='flex flex-row p-4'>
         <DashboardLeftNav />
-        <div className='flex min-width-[768px] md:flex-col lg:flex-row lg:justify-between w-full px-4'>
+        <div className='flex min-width-[768px] flex-col lg:flex-row lg:justify-between w-full px-4'>
             <DashboardMain />
             <DashboardRightNav/>
         </div>
