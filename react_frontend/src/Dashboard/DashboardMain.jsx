@@ -5,7 +5,7 @@ import { AnalyticsCardData } from './AnalyticsCardData';
 import DashBoardGraph from './DashBoardGraph';
 
 const TableCell = ({tableText}) => {
-    return ( <td className='items-left max-w-[250px] p-2'>{tableText}</td> )
+    return ( <td className='items-left max-w-[75p%]  p-2'>{tableText}</td> )
 }
 const TableHeaderCell = ({headerText}) => {
     return ( <th className='items-left max-w-[250px] p-2'>{headerText}</th> )
@@ -31,7 +31,7 @@ const TableRow = ({postNo, title, category, subcategory, body, likes}) => {
 }
 const DashboardMain = () => {
   return (
-    <div className=''>
+    <div className='w-[100%] lg:w-[62%]'>
         <div>
             <input type="text" />
             <span><AiOutlineSearch/></span>
@@ -44,7 +44,7 @@ const DashboardMain = () => {
 
         <section id='myposts'>
             <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>My Posts</h2>
-            <table className='px-4 w-fit shadow-lg mx-4'>
+            <table className='px-4 lg:w-full md:w-[40%] shadow-lg mx-4'>
                 <thead className='text-theme-color bg-text-color font-bold text-base w-fit items-left justify-left px-4'>
                     <tr> 
                         <TableHeaderCell headerText="S/N" />
@@ -74,7 +74,7 @@ const DashboardMain = () => {
 
         <section id='analytics'>
             <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>Analytics</h2>
-            <div className='flex flex-row gap-4 items-center text-text-color p- mb-8'>
+            <div className='flex flex-row flex-wrap gap-4 items-center text-text-color p- mb-8 mx-4'>
                 {
                     AnalyticsCardData.map((dataItem, index) => 
                         <div key={index} className='items-center text-text-color p-4 shadow-lg rounded mb-4 w-fit'>
@@ -90,7 +90,7 @@ const DashboardMain = () => {
             </div>
 
             <div>
-                <h3 className='text-text-color font-bold text-base mb-8'> Graph</h3>
+                <h3 className='text-text-color font-bold text-base mb-8 mx-4'> Graph</h3>
                 <DashBoardGraph/>
 
             </div>
