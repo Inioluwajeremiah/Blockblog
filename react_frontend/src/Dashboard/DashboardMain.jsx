@@ -30,6 +30,18 @@ const TableRow = ({postNo, title, category, subcategory, body, likes}) => {
     )
 }
 const DashboardMain = () => {
+    const [currentCategory, setCurrentCategory] = useState(''); 
+    const [currentSubCategory, setCurrentSubCategory] = useState('') ;
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+    const changeCategory = (categoryOption) => {
+        setCurrentCategory(categoryOption)
+      }
+    const changeSubCategory = (subCategoryOption) => {
+    setCurrentSubCategory(subCategoryOption)
+    }
+
+
   return (
     <div className='w-[100%] lg:w-[62%]'>
         <div>
