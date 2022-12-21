@@ -15,10 +15,10 @@ import { SelectionData, SubCategory } from './SelectionData';
 
 
 const TableCell = ({tableText}) => {
-    return ( <td className='items-left max-w-[75p%]  p-2'>{tableText}</td> )
+    return ( <td className='items-left  p-2'>{tableText}</td> )
 }
 const TableHeaderCell = ({headerText}) => {
-    return ( <th className='items-left max-w-[250px] p-2'>{headerText}</th> )
+    return ( <th className='items-left p-2'>{headerText}</th> )
 }
 const TableRow = ({postNo, title, category, subcategory, body, likes}) => {
     return (
@@ -155,7 +155,7 @@ const DashboardMain = () => {
 
         <section id='myposts' className='mx-4 shadow-lg p-4 mt-12'>
             <h2 className='text-text-color font-bold text-lg mb-2'>My Posts</h2>
-            <table className='px-4 lg:w-full md:w-[40%]'>
+            <table className='px-4 w-full'>
                 <thead className='text-theme-color bg-text-color font-bold text-base w-fit items-left justify-left px-4'>
                     <tr> 
                         <TableHeaderCell headerText="S/N" />
