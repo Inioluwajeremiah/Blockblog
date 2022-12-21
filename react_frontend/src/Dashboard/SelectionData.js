@@ -1,5 +1,9 @@
 export const SelectionData = [
     {
+        label: "None",
+        value: ""
+    },
+    {
         label: "Academy",
         value: "Academy",
     },

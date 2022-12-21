@@ -8,7 +8,7 @@
     --text-dark-color: #1e293b;
     --theme-color: #f9fafb;
     --bg-color: #1e293b;
-    --app-color: #fac802;
+    --app-color: rgb(250, 200, 2);
 }
 
 :dark-theme {

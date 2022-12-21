@@ -1,17 +1,14 @@
-<<<<<<< HEAD
-import React, {useState} from 'react';
-=======
+
 import React, { useState } from 'react';
->>>>>>> a25b0e9cc673859390712d66d6e1fc906d96450e
 import {AiOutlineSearch} from 'react-icons/ai';
 import { UserPostData } from './UserPostsData';
 import { AnalyticsCardData } from './AnalyticsCardData';
 import DashBoardGraph from './DashBoardGraph';
 import { EditorState } from "draft-js";
 import { Editor } from 'react-draft-wysiwyg';
-// import './Draft.css';
-// import './RichTextStyle.css';
-// import '../../node_modules/draft-js/dist/Draft.css'
+import './Draft.css';
+import './RichTextStyle.css';
+import '../../node_modules/draft-js/dist/Draft.css'
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import RichTextEditor from '../RichText/RichText';
 import { SelectionData, SubCategory } from './SelectionData';
@@ -44,19 +41,26 @@ const TableRow = ({postNo, title, category, subcategory, body, likes}) => {
 }
 const SelectComponent = ({data, onChange }) => {
     return(
-        <select id="postCategoy" onChange={onChange}>
+        <select id="postCategoy" onChange={onChange} className="">
         {
             data.map((dataItem, index) => 
-            <option key={index} value={dataItem.value}>{dataItem.label}</option>   
+            <option className='text-text-color m-2 border-none' key={index} value={dataItem.value}>{dataItem.label}</option>   
             )
         }
     </select>
     )
 }
 
+const InputComponent = ({type, placeholder, ...rest }) => {
+    return (
+        <input className='text-text-color outline-none border-solid border-[1px] border-[#ddd] w-full px-[15px] py-2' type={type} placeholder={placeholder} {...rest}  />
+
+    )
+}
+
 const InputLabel = ({title}) => {
     return ( 
-       <h3>{title}</h3>
+       <h3 className='text-text-color text-base mt-2 '>{title}</h3>
     )
 }
 
@@ -69,13 +73,13 @@ const DashboardMain = () => {
    
     console.log(currentSubCategory);
 
-    const changeCategory = (categoryOption) => {
-        
-        setCurrentCategory(categoryOption)
+    const changeCategory = (e) => {
+        setCurrentCategory(e.target.value)
         console.log(currentCategory);
       }
-    const changeSubCategory = (subCategoryOption) => {
-    setCurrentSubCategory(subCategoryOption)
+    const changeSubCategory = (e) => {
+        setCurrentSubCategory(e.target.value)
+        console.log(currentSubCategory);
     }
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState);
@@ -83,28 +87,22 @@ const DashboardMain = () => {
 
 
   return (
-    <div className='w-[100%] lg:w-[62%]'>
+    <div className='w-[100%] lg:w-[62%] mx-[auto]'>
         <div>
             <input type="text" />
             <span><AiOutlineSearch/></span>
         </div>
 
-        <section id='newpost'>
-            <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>New Post</h2>
-            <InputLabel title="Title"/>
-            <input type="text" placeholder='Title'  />
-            {/* onChange={(title) => setTitle(title)} */}
-            <InputLabel title="Select Category" />
-                <select name="postCategory" id="postCategoy" onChange={changeCategory}>
-                {
-                    SelectionData.map((dataItem, index) => 
-                    <option key={index} value={dataItem.value}>{dataItem.label}</option>   
-                    )
-                }
-            </select>
-            {/* <SelectComponent data={ SelectionData} onChange={changeCategory} /> */}
+        <section id='newpost' className='mx-4 shadow-lg p-4'>
+            <h2 className='text-text-color font-bold text-lg mb-2'>New Post</h2>
             
-            <InputLabel title="Select Subcategory"/>
+            <InputLabel title="Title"/>
+            <InputComponent type="text" placeholder="Title"/>
+            
+            <InputLabel title="Select Category" />
+            <SelectComponent data={ SelectionData} onChange={changeCategory} />
+            
+            { (currentCategory == "") ? " " : <InputLabel title={`Select ${currentCategory} Subcategory`}/> }
             {
                     (currentCategory == "Academy") ?  <SelectComponent data={ SubCategory.Academy } onChange={(cat) => setCurrentSubCategory(cat)} />
                 :   (currentCategory == "Climate") ?  <SelectComponent data={ SubCategory.Climate } onChange={(cat) => setCurrentSubCategory(cat)} />
@@ -113,6 +111,8 @@ const DashboardMain = () => {
                 :   (currentCategory == "Technology") ?  <SelectComponent data={ SubCategory.Technology } onChange={(cat) => setCurrentSubCategory(cat)} />
                 :   ""
             }
+
+            <InputLabel title="Content"/>
 
             {/* <Editor 
                 mention={{
@@ -142,12 +142,20 @@ const DashboardMain = () => {
                   }}
             /> */}
            
-            {/* <RichTextEditor/> */}
+            <RichTextEditor/>
+
+            <InputLabel title="Add Image"/>
+            <InputComponent type="file" accept="image/*"/>
+
+            <div className='w-full flex justify-center'>
+                <button type='submit' value='Submit' className='p-2 bg-app-color text-white rounded-md m-4 text-center hover:tracking-widest ease-in-out duration-500'> Submit </button>
+            </div>
+           
         </section>
 
-        <section id='myposts'>
-            <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>My Posts</h2>
-            <table className='px-4 lg:w-full md:w-[40%] shadow-lg mx-4'>
+        <section id='myposts' className='mx-4 shadow-lg p-4 mt-12'>
+            <h2 className='text-text-color font-bold text-lg mb-2'>My Posts</h2>
+            <table className='px-4 lg:w-full md:w-[40%]'>
                 <thead className='text-theme-color bg-text-color font-bold text-base w-fit items-left justify-left px-4'>
                     <tr> 
                         <TableHeaderCell headerText="S/N" />
@@ -175,8 +183,8 @@ const DashboardMain = () => {
             </table>
         </section>
 
-        <section id='analytics'>
-            <h2 className='text-text-color font-bold text-lg mt-8 mx-4'>Analytics</h2>
+        <section id='analytics' className='mx-4 shadow-lg p-4 mt-12'>
+            <h2 className='text-text-color font-bold text-lg mb-2'>Analytics</h2>
             <div className='flex flex-row flex-wrap gap-4 items-center text-text-color p- mb-8 mx-4'>
                 {
                     AnalyticsCardData.map((dataItem, index) => 
@@ -193,7 +201,7 @@ const DashboardMain = () => {
             </div>
 
             <div>
-                <h3 className='text-text-color font-bold text-base mb-8 mx-4'> Graph</h3>
+                <h3 className='text-text-color font-bold text-base mb-2'> Graph</h3>
                 <DashBoardGraph/>
 
             </div>

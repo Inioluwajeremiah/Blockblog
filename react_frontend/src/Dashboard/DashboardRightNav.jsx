@@ -22,7 +22,7 @@ const CustomCard = ({ profilePics, title, author, date, category }) => {
 }
 const DashboardRightNav = () => {
   return (
-    <div  className='lg:w-[25vw] w-full'>
+    <div  className='lg:w-[25vw] w-[100%] mx-[auto]'>
        <section id="recentposts">
         <h2 className='text-text-color font-bold text-lg'>Recent Posts</h2>
         {
