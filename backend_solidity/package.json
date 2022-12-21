@@ -1,0 +1,19 @@
+{
+  "name": "bsb",
+  "version": "1.0.0",
+  "description": "block shop contract",
+  "main": "index.js",
+  "scripts": {
+    "test": "test block blog"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "hardhat": "^2.12.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2"
+  }
+}

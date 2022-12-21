@@ -7,7 +7,8 @@ import {FaRobot} from 'react-icons/fa';
 import {GoChecklist} from 'react-icons/go';
 import {FiLogOut} from 'react-icons/fi';
 import {IoAnalyticsOutline} from 'react-icons/io5';
-
+import { BlockBlogContext } from '../context/BlockBlogContext';
+import { useContext } from 'react';
 
 const NavItem = ({icon, title, link}) => {
     return (
@@ -19,6 +20,7 @@ const NavItem = ({icon, title, link}) => {
 }
 
 const DashboardLeftNav = () => {
+    const { connectWallet } = useContext(BlockBlogContext)
   return (
     <div>
         <h1 className='text-center p-4 text-text-color tracking-wide font-black text-lg'>Dashboard</h1>
@@ -35,6 +37,8 @@ const DashboardLeftNav = () => {
             <NavItem icon={<GoChecklist/>} title="Recent Posts" link="#recentposts" />
             <NavItem icon={<GoChecklist/>} title="Trending Posts" link="#trendingposts" />
             <NavItem icon={<FiLogOut/>} title="SignOut" />
+            <button onClick={connectWallet} value="Connect Wallet"></button>
+            {/* <NavItem icon={<FiLogOut/>} title="Connect Wallet" onclick={connectWallet} /> */}
         </ul>   
 
     </div>
