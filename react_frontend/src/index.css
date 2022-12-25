@@ -18,5 +18,22 @@
     --bg-color: #f9fafb;
     --app-color: #fac802;
 }
-
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* scrollbar track */
+  ::-webkit-scrollbar-track { 
+    border-radius: 5px;
+    background-color: #ccc;
+  }
+   
+   /* scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background: var(--text-color); 
+    border-radius: 10px;
+  }
+  
+  
 

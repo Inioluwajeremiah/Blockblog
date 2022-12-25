@@ -9,8 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+    "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
+    "axios": "^1.2.1",
+    "browserify": "^17.0.0",
+    "buffer": "^6.0.3",
+    "dotenv": "^16.0.3",
     "draft-js": "^0.11.7",
     "ethers": "^5.7.2",
+    "ipfs-http-client": "^59.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",

@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {AiOutlineHome} from 'react-icons/ai';
 import { RecentPostData } from './RecentPostData';
 import { TrendingPostData } from './TrendingPostsData';
+import { BlockBlogContext } from '../context/BlockBlogContext';
 
 const CustomCard = ({ profilePics, title, author, date, category }) => {
     return (
-      <div className='flex flex-row gap-4 items-center text-text-color p-4 shadow-lg rounded mb-4 w-fit'>
+      <div className=' w-full flex flex-row gap-4 items-center text-text-color p-4 shadow-lg rounded mb-4 w-fit mx-[auto]'>
         <div className='w-[50px] h-[50px] rounded-full'>
           <img src={profilePics} alt="avatar profile" />
         </div>
@@ -21,10 +22,11 @@ const CustomCard = ({ profilePics, title, author, date, category }) => {
     )
 }
 const DashboardRightNav = () => {
+  const {blockAccount } = useContext(BlockBlogContext)
   return (
-    <div  className='lg:w-[25vw] w-[100%] mx-[auto]'>
-       <section id="recentposts">
-        <h2 className='text-text-color font-bold text-lg'>Recent Posts</h2>
+    <div  className='lg:w-[35vw] w-[100%] mx-[auto]'>
+       <section id="recentposts" className='mx-4 mt-12 lg:mt-0'>
+        <h2 className='text-text-color font-bold text-lg flex justify-center lg:justify-start'>Recent Posts</h2>
         {
           RecentPostData.map((dataItems, index) => (
               <CustomCard key={index} 
@@ -37,8 +39,8 @@ const DashboardRightNav = () => {
           ))
         }
        </section>
-       <section id='trendingposts'>
-        <h2 className='text-text-color font-bold text-lg mt-8'>Trending Posts</h2>
+       <section id='trendingposts' className='mx-4  mt-12 lg:mt-0'>
+        <h2 className='flex text-text-color font-bold text-lg mt-8 justify-center lg:justify-start'>Trending Posts</h2>
         {
           TrendingPostData.map((dataItems, index) => (
               <CustomCard key={index} 

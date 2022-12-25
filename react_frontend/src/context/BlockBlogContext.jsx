@@ -4,6 +4,10 @@ import { BlockBlogAddress, BlockNetworkABI } from '../assets/constants';
 
 export const BlockBlogContext = React.createContext();
 
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner()
+const BlogNetworkContract = new ethers.Contract(BlockBlogAddress, BlockNetworkABI, signer);
+
 const getBlockBlogContract = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner()
@@ -13,6 +17,8 @@ const getBlockBlogContract = () => {
 
 export const ContextProvider = ({children}) => {
     const [blockAccount, setBlockAccount] = useState('');
+
+    console.log(blockAccount);
     
     const connectWallet = async () => {
         if (ethereum) {
@@ -21,6 +27,7 @@ export const ContextProvider = ({children}) => {
         } else {
             // MetaMask requires requesting permission to connect users accounts
             alert("Install metamask to write to BlockBlog")
+            await provider.send("eth_requestAccounts", []);
         }
     }
 
@@ -29,7 +36,7 @@ export const ContextProvider = ({children}) => {
     })
     
     return (
-        <BlockBlogContext.Provider value={{connectWallet}}>
+        <BlockBlogContext.Provider value={{connectWallet, blockAccount}}>
             {children}
         </BlockBlogContext.Provider>
     );

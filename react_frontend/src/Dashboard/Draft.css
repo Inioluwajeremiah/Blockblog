@@ -75,3 +75,6 @@
   .RichEditor-activeButton {
     color: #5890ff;
   }
+  input #file-upload-btn {
+    background: #ddd;
+  }
