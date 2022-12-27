@@ -4,19 +4,34 @@ import {AiOutlineSearch} from 'react-icons/ai';
 import { UserPostData } from './UserPostsData';
 import { AnalyticsCardData } from './AnalyticsCardData';
 import DashBoardGraph from './DashBoardGraph';
-import { EditorState } from "draft-js";
-import { Editor } from 'react-draft-wysiwyg';
-import './Draft.css';
-import './RichTextStyle.css';
-import '../../node_modules/draft-js/dist/Draft.css'
-import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import RichTextEditor from '../RichText/RichText';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { SelectionData, SubCategory } from './SelectionData';
 import { BlockBlogContext } from '../context/BlockBlogContext';
 import ipfs from '../assets/ipfs';
 import { PINATA_API_KEY, PINATA_API_SECRET_KEY , PINATA_API_JWT} from '../../ipfsconfig';
 import axios from 'axios';
+import {AiOutlineMenu} from 'react-icons/ai';
+import profileImage from '../assets/images/avartar10.png';
 
+
+
+
+// configure ckeditor plugins
+// ClassicEditor
+//     .create( document.querySelector( '#editor' ), {
+//         toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+//         heading: {
+//             options: [
+//                 { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+//                 { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+//                 { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+//             ]
+//     }
+// } )
+// .catch( error => {
+//     console.log( error );
+// } );
 
 
 // custom th element funcctional component
@@ -71,18 +86,33 @@ const InputLabel = ({title}) => {
 // hande submit button
 
 const DashboardMain = () => {
-    const [title, setTitle] = useState('');
+    const [postTitle, setPostTitle] = useState('');
     const [currentCategory, setCurrentCategory] = useState(''); 
     const [currentSubCategory, setCurrentSubCategory] = useState('');
-    const [editorState, setEditorState] = React.useState( () => EditorState.createEmpty(),)
-    const [imageToArray, setImageToArray] = useState([]);
-    const [blobImage, setBlobImage] = useState(null);
+    const [postContent, setpostContent] = useState('');
     const [fileImage, setFileImage] = useState(null);
-    const [imagHashResult, setImageHashResult] = useState(null);
-    const {connectWallet, blockAccount} = useContext(BlockBlogContext);
+    const [imageHashResult, setImageHashResult] = useState('');
+    const [blogCount, setBlogCount] = useState(0);
 
-   
-    console.log(currentSubCategory);
+    
+    const {connectWallet, blockAccount, BlogNetworkContract} = useContext(BlockBlogContext);
+    
+
+    
+            // const iposts = retrievedposts.map((dataItem) => ({
+            //     addressTo: dataItem.receiver,
+            //     addressFrom: dataItem.sender,
+            //     timestamp: new Date(dataItem.timestamp.toNumber() * 1000).toLocaleString(),
+            //     title: dataItem.postTitle,
+            //     category: dataItem.postCategory,
+            //     subcategory: dataItem.postSubCategory
+            //   }));
+        
+
+    let displayContent = document.getElementById('displayContent')
+    if (postContent != '') {
+        displayContent.innerHTML = postContent
+    }
 
     const changeCategory = (e) => {
         setCurrentCategory(e.target.value)
@@ -96,30 +126,7 @@ const DashboardMain = () => {
         setEditorState(editorState);
     };
 
-    // hande input file button
-    // const GetFile = (event) => {
-    //     event.preventDefault()
-    //     const selectedImage = event.target.files[0];
-    //     setFileImage(selectedImage);
-         
-    //     console.log(selectedImage);
-    //     console.log();
-
-    //     const blob = new Blob([selectedImage], {type: "image/*"})
-    //     setBlobImage(blob);
-    //     console.log(blob);
-    //     let reader = new FileReader();
-    //     reader.readAsArrayBuffer(selectedImage)
-    //     reader.addEventListener("loadend", function() {
-    //         console.log(reader.result);
-    //         const uint8array = new Uint8Array(reader.result);
-    //         imageToArray.push(uint8array);
-    //         console.log(imageToArray);
-    //         console.log("uint8array => ", uint8array);
-    //      });
-        
-    // }
-
+    // get image file
     const GetFile = async (event) => {
 
         event.preventDefault()
@@ -129,23 +136,22 @@ const DashboardMain = () => {
         if (selectedImage)  {
             try {
                 const formData = new FormData();
-                formData.append("file", selectedImage);
+                formData.append("file", selectedImage); 
 
-                const resFile = await axios({
+                const uploadFile = await axios({
                     method: "post",
                     url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
                     data: formData,
                     headers: {
-                        // 'pinatApiKey': 'f3335ad8785f15de71b1', // PINATA_API_KEY,
-                        // 'pinataApiSecretKey': '2e43c4178000057b18b203e9abbab503db06c2caa3c1fd6757a64f397ab749e6', // PINATA_API_SECRET_KEY,
                         "Content-Type": "multipart/form-data",
-                        "Authorization": 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmNjM4NDc2ZC1lNmNkLTQ2Y2UtYTEyMi1mMTk4MDk1MGQ5N2QiLCJlbWFpbCI6ImFkZXdhcmFpbmlvbHV3YUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZjMzMzVhZDg3ODVmMTVkZTcxYjEiLCJzY29wZWRLZXlTZWNyZXQiOiIyZTQzYzQxNzgwMDAwNTdiMThiMjAzZTlhYmJhYjUwM2RiMDZjMmNhYTNjMWZkNjc1N2E2NGYzOTdhYjc0OWU2IiwiaWF0IjoxNjcxOTU4NzUxfQ.8gmjkDnuoUMAUSxbZfDkELtyzDP_B3tCX_GP_mSTAZc'
+                        "Authorization": 'Bearer ' + PINATA_API_JWT
                     },
                 });
-                console.log(resFile.data.IpfsHash);
-                setImageHashResult(`ipfs://${resFile.data.IpfsHash}`)
-                
-                console.log(imagHashResult);    
+                const hash = "https://gateway.pinata.cloud/ipfs/" + uploadFile.data.IpfsHash
+                console.log(uploadFile.data.IpfsHash);
+                console.log("hash => ", hash);
+                setImageHashResult(hash)
+                console.log("image hash => ", imageHashResult);    
             } catch (error) {
                 console.log("Error sending File to IPFS: ")
                 console.log(error.message, error.request, error.response)
@@ -154,75 +160,81 @@ const DashboardMain = () => {
     }
     
 
+    // function to submit form 
     const SubmitForm = async (e) => {
         e.preventDefault()
-        const result = await ipfs.add(imageToArray);
-        console.log(result[0].hash);
+        // blognetwork contract to add data to blockchain
+        console.log(postTitle, currentCategory, currentSubCategory, postContent, imageHashResult);
+        console.log(BlogNetworkContract);
+        BlogNetworkContract.createPost(postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+        // try {
+        //     BlogNetworkContract.createPost(postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+        // } catch (error) {
+        //     alert("error")
+            
+        // }
     }
 
+    // useEffect( () => {
+    //     retrievePosts();
+    // }, [])
+
   return (
-    <div className='w-[100%] lg:w-[62%] mx-[auto]'>
-        <div>
-            <img src="" alt="" />
-            <div>
-                <p>{blockAccount}</p>
-                {/* <div>{imageBuffer}</div> */}
-                <p>Username</p>
-            </div>
-           
-            
+    <div className='w-[100%] lg:w-[56%] mx-[auto] list-disc '>
+        <div className="flex flex-row gap-2 items-center">
+            <p className="lg:hidden" >{<AiOutlineMenu/>}</p>
+            {/* onClick{()=> }> */}
+            <div className="flex flex-row gap-2 items-center">
+                    <div className="h-[45px] w-[45px]">
+                        <img src={profileImage} alt=""/> 
+                    </div>
+                    <div>
+                        <p>{blockAccount}</p>
+                        <p>John DOe</p>
+                    </div>
+                        {/* <div>{imageBuffer}</div> */}
+            </div>                
         </div>
 
         <section id='newpost' className='mx-4 shadow-lg p-4'>
             <h2 className='text-text-color font-bold text-lg mb-2'>New Post</h2>
             
             <InputLabel title="Title"/>
-            <InputComponent type="text" placeholder="Title"/>
+            <InputComponent type="text" placeholder="Title" name="posttitle" id="posttitle" onChange={(title) => setPostTitle(title.target.value)}/>
             
             <InputLabel title="Select Category" />
             <SelectComponent data={ SelectionData} onChange={changeCategory} />
             
             { (currentCategory == "") ? " " : <InputLabel title={`Select ${currentCategory} Subcategory`}/> }
             {
-                    (currentCategory == "Academy") ?  <SelectComponent data={ SubCategory.Academy } onChange={(cat) => setCurrentSubCategory(cat)} />
-                :   (currentCategory == "Climate") ?  <SelectComponent data={ SubCategory.Climate } onChange={(cat) => setCurrentSubCategory(cat)} />
-                :   (currentCategory == "Finance") ?  <SelectComponent data={ SubCategory.Finance } onChange={(cat) => setCurrentSubCategory(cat)} />
-                :   (currentCategory == "Politics") ?  <SelectComponent data={ SubCategory.Politics } onChange={(cat) => setCurrentSubCategory(cat)} />
-                :   (currentCategory == "Technology") ?  <SelectComponent data={ SubCategory.Technology } onChange={(cat) => setCurrentSubCategory(cat)} />
+                    (currentCategory == "Academy") ?  <SelectComponent data={ SubCategory.Academy } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
+                :   (currentCategory == "Climate") ?  <SelectComponent data={ SubCategory.Climate } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
+                :   (currentCategory == "Finance") ?  <SelectComponent data={ SubCategory.Finance } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
+                :   (currentCategory == "Politics") ?  <SelectComponent data={ SubCategory.Politics } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
+                :   (currentCategory == "Technology") ?  <SelectComponent data={ SubCategory.Technology } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
                 :   ""
             }
 
             <InputLabel title="Content"/>
-
-            {/* <Editor 
-                mention={{
-                    separator: ' ',
-                    trigger: '@',
-                    suggestions: [
-                      { text: 'APPLE', value: 'apple', url: 'apple' },
-                      { text: 'BANANA', value: 'banana', url: 'banana' },
-                      { text: 'CHERRY', value: 'cherry', url: 'cherry' },
-                      { text: 'DURIAN', value: 'durian', url: 'durian' },
-                      { text: 'EGGFRUIT', value: 'eggfruit', url: 'eggfruit' },
-                      { text: 'FIG', value: 'fig', url: 'fig' },
-                      { text: 'GRAPEFRUIT', value: 'grapefruit', url: 'grapefruit' },
-                      { text: 'HONEYDEW', value: 'honeydew', url: 'honeydew' },
-                    ],
-                  }}
-                  editorState={editorState}
-                  toolbarClassName="rdw-storybook-toolbar"
-                  wrapperClassName="rdw-storybook-wrapper"
-                  editorClassName="rdw-storybook-editor"
-
-                  onEditorStateChange={onEditorStateChange}
-                  toolbar={{
-                    link: {
-                      defaultTargetOption: '_blank',
-                    },
-                  }}
-            /> */}
-           
-            {/* <RichTextEditor/> */}
+            <div className='' id="#editorc">
+          {/* Ckeditor - a rich text editor */}
+            <CKEditor
+                editor={ ClassicEditor }
+                onReady={ ( editor ) => {
+                console.log( "CKEditor5 React Component is ready to use!", editor );
+                } }
+                onChange={ ( event, editor ) => {
+                let data = editor.getData();
+                setpostContent(data)
+                console.log( data );
+                } }
+            />
+            </div>
+            
+            {/* <div id="displayContent" className="mx-4">
+                
+                
+            </div> */}
 
             <InputLabel title="Add Image"/>
             <input type="file" accept="image/*" onChange={GetFile} id="upload-btn"/>

@@ -21,9 +21,9 @@ const NavItem = ({icon, title, link, ...children}) => {
 const DashboardLeftNav = () => {
     const { connectWallet, blockAccount } = useContext(BlockBlogContext)
   return (
-    <div>
+    <div className="hidden relative z-30 left-0 px-2 shadow-lg" >
         <h1 className='text-center p-4 text-text-color tracking-wide font-black text-lg'>Dashboard</h1>
-        <ul className='overflow-y-scroll max-h-screen p-4 ' >
+        <ul className='overflow-y-scroll max-h-screen p-4' >
         {
                 blockAccount ? "" :
                 // <button onClick={connectWallet} className='bg-app-color p-2'>Connect Wallet</button>
