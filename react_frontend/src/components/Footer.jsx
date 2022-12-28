@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../assets/logo.png'
+import Logo from '../assets/images/logo.png'
 import Subscribe from './Subscribe'
 import { Link } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const Footer = () => {
     <footer className='bg-black px-12 py-5 relative'>
         <div className='flex flex-col items-center lg:flex-row lg:justify-between lg:items-center'>
             <Link to='/'>
-                <img src={Logo} alt="" className='w-32'/>
+                <img src={Logo} alt="" className='w-[60px] h-[60px]'/>
             </Link>
             <div className='pb-5 lg:pb-0'>
             <ul className='flex gap-x-5 text-gray'>

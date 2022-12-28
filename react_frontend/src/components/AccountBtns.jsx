@@ -4,7 +4,7 @@ const AccountBtns = () => {
   return (
     <div className='flex items-center font-medium'>
       {/* link btn */}
-      <a className='hover:text-blue transition' href='/authenticate'>
+      <a className='hover:border-app-color border-b-2 border-transparent transition' href='/authenticate'>
         Login
       </a>
       {/* separator */}

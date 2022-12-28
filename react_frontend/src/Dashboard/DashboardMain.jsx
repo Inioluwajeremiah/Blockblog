@@ -11,7 +11,6 @@ import { BlockBlogContext } from '../context/BlockBlogContext';
 import ipfs from '../assets/ipfs';
 import { PINATA_API_KEY, PINATA_API_SECRET_KEY , PINATA_API_JWT} from '../../ipfsconfig';
 import axios from 'axios';
-import {AiOutlineMenu} from 'react-icons/ai';
 import profileImage from '../assets/images/avartar10.png';
 
 
@@ -182,14 +181,13 @@ const DashboardMain = () => {
   return (
     <div className='w-[100%] lg:w-[56%] mx-[auto] list-disc '>
         <div className="flex flex-row gap-2 items-center">
-            <p className="lg:hidden" >{<AiOutlineMenu/>}</p>
             {/* onClick{()=> }> */}
             <div className="flex flex-row gap-2 items-center">
                     <div className="h-[45px] w-[45px]">
                         <img src={profileImage} alt=""/> 
                     </div>
                     <div>
-                        <p>{blockAccount}</p>
+                        <p>{blockAccount.slice(0,5)}...{blockAccount.slice((blockAccount.length-5),blockAccount.length)}</p>
                         <p>John DOe</p>
                     </div>
                         {/* <div>{imageBuffer}</div> */}
@@ -239,23 +237,24 @@ const DashboardMain = () => {
             <InputLabel title="Add Image"/>
             <input type="file" accept="image/*" onChange={GetFile} id="upload-btn"/>
 
-            <div className='w-full flex justify-center'>
-                <button type='submit' value='Submit' onClick={SubmitForm} className='p-2 bg-app-color text-white rounded-md m-4 text-center hover:tracking-widest ease-in-out duration-500'> Submit </button>
+            <div className='w-full flex justify-center mt-4'>
+                <button type='submit' value='Submit' onClick={SubmitForm} className='btn bg-app-color h-[52px] text-base px-8'> Submit </button>
+                {/* p-2 bg-app-color text-white rounded-md m-4 text-center hover:tracking-widest ease-in-out duration-500' */}
             </div>
            
         </section>
 
-        <section id='myposts' className='mx-4 shadow-lg p-4 mt-12'>
+        <section id='myposts' className='mx-4 shadow-lg p-4 mt-12 overflow-x-scroll'>
             <h2 className='text-text-color font-bold text-lg mb-2'>My Posts</h2>
-            <table className='px-4 w-full'>
-                <thead className='text-theme-color bg-text-color font-bold text-base w-fit items-left justify-left px-4'>
+            <table className='px-4 lg:w-full'>
+                <thead className='text-theme-color bg-text-color  font-bold text-base lg:w-fit items-left justify-left px-4'>
                     <tr> 
                         <TableHeaderCell headerText="S/N" />
                         <TableHeaderCell headerText="Title" />
                         <TableHeaderCell headerText="Category" />
                         <TableHeaderCell headerText="Sub Category" />
                         <TableHeaderCell headerText="Body" />
-                        <TableHeaderCell headerText="Likes" />
+                        {/* <TableHeaderCell headerText="Likes" /> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -267,7 +266,7 @@ const DashboardMain = () => {
                                 category={dataItem.category}
                                 subcategory={dataItem.subcategory}
                                 body={dataItem.body}
-                                likes={dataItem.likes}
+                                // likes={dataItem.likes}
                             />
                         ))
                     }

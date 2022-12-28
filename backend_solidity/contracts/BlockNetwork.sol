@@ -1,14 +1,15 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+ // SPDX-License-Identifier: GPL-3.0
+pragma solidity 0.8.17;
+
 
 contract BlockNetwork {
     string public name; 
 
-    uint public Counter = 0;
+    uint public blogCounter = 0;
 
     mapping(uint=>Post) public blogPosts;
 
-    struct Post{
+    struct Post {
         uint id;
         string postTitle;
         string postCategory;
@@ -21,14 +22,12 @@ contract BlockNetwork {
     }
 
     event PostCreated(
-        uint id,
         string posTitle,
         string postCategory,
         string postSubcategory,
         string content,
         uint256 postDate,
-        uint tip,
-        address payable author,
+        address author,
         string imageHash
     );
     
@@ -44,31 +43,31 @@ contract BlockNetwork {
         // string imageHash
     );
 
-    constructor() public{
-        name = "Post Created";
-    }
+    // constructor() public {
+    //     name = "Post Created";
+    // }
 
     function createPost(string memory postTitle, string memory postCategory, string memory postSubcategory, string memory content, string memory imageHash) public{
         //require valid title
         require(bytes(postTitle).length > 0);
         //require valid category
         require(bytes(postCategory).length > 0);
-         //require valid sub category
+            //require valid sub category
         require(bytes(postSubcategory).length > 0);
-         //require valid content
+            //require valid content
         require(bytes(content).length > 0);
-         //require valid author address
+            //require valid author address
         require(msg.sender!=address(0));
-         //require valid image hash from ipfs
+            //require valid image hash from ipfs
         require(bytes(imageHash).length > 0);
         
         //incrementing posts
-        Counter++;
+        blogCounter++;
 
         //adding posts to the list of posts
-        blogPosts[Counter] = Post(Counter, postTitle, postCategory, postSubcategory, content, block.timestamp, 0, payable(msg.sender), imageHash );
+        blogPosts[blogCounter] = Post(blogCounter, postTitle, postCategory, postSubcategory, content, block.timestamp, 0, payable(msg.sender), imageHash );
         //trigger event
-       emit PostCreated(Counter, postTitle, postCategory, postSubcategory, content, block.timestamp, 0, payable(msg.sender), imageHash );
+        emit PostCreated(postTitle, postCategory, postSubcategory, content, block.timestamp, payable(msg.sender), imageHash );
     }
 
     function getPosts() public view returns (Post[] memory) {
@@ -77,7 +76,7 @@ contract BlockNetwork {
 
     function tipPost(uint idx) public payable{
         //validate the id
-        require(idx>0 && idx<=Counter);
+        require(idx>0 && idx<=blogCounter);
         // fetch the post based on id and increment the tip amount of the desired author
         Post memory _t = blogPosts[idx];
         address payable _author = _t.author;

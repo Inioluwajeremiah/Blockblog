@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import components
-import Logo from '../assets/logo.png';
+import Logo from '../assets/images/logo.png';
 import Nav from './Nav';
 import AccountBtns from './AccountBtns';
 
@@ -21,7 +21,7 @@ const Header = ({ setNavMobile }) => {
 
         {/* logo */}
         <Link to='/'>
-          <img src={Logo} alt='' className='w-36 h-24 ml-[-10px]'
+          <img src={Logo} alt='' className='w-[60px] h-[60px]'
                   data-aos='fade-down'
                   data-aos-delay='100'
                   data-aos-duration='2000'

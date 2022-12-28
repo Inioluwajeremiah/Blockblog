@@ -11,7 +11,7 @@ const Nav = () => {
         {navData.map((item, index) => {
           return (
             <li
-              className='border-b-2 border-transparent hover:border-blue transition-all duration-300'
+              className='border-b-2 border-transparent hover:border-app-color transition-all duration-300'
               key={index}
             >
              

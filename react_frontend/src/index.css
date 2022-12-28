@@ -40,7 +40,7 @@
       @apply text-[22px] lg:text-[32px] font-bold text-white;
     }
     .btn {
-      @apply bg-app-color h-[60px] px-4 text-black rounded-md hover:bg-blue-700 transition flex items-center text-lg font-medium outline-none;
+      @apply bg-app-color h-[60px] px-4 text-black rounded-md hover:bg-yellow-500 transition flex items-center text-lg font-medium outline-none;
     }
     .section {
       @apply py-12 lg:py-24;
