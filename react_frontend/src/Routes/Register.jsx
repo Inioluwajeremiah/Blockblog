@@ -9,7 +9,7 @@ import Footer from '../components/Footer'
 
 const Register = () => {
   return (
-    <div>
+    <div >
       {/* <Header/> */}
         <form action="/authenticate" encType='multipart/form-data' className='max-w-[500px] mx-auto my-4 shadow-lg p-4'>
           <FormHeader/>

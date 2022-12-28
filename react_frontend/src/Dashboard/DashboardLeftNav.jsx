@@ -9,12 +9,13 @@ import {FiLogOut} from 'react-icons/fi';
 import {IoAnalyticsOutline} from 'react-icons/io5';
 import { BlockBlogContext } from '../context/BlockBlogContext';
 import {AiOutlineMenu} from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const NavItem = ({icon, title, link, ...children}) => {
     return (
         <li className="flex flex-row gap-4 items-center p-2 text-text-color hover:cursor-pointer w-full hover:text-app-color hover:tracking-wide ease-in duration-500 "  {...children}>
             <span className='font-black text-app-color'>{icon}</span>
-            <a href={link}>{title}</a>
+            <Link to={link}>{title}</Link>
         </li>
     )
 }

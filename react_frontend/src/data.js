@@ -23,6 +23,10 @@ export const navData = [
     name: 'Contact Us',
     to: '/contact',
   },
+  {
+    name: 'Dashboard',
+    to: '/dashboard',
+  }
 ];
 
 export const category = [

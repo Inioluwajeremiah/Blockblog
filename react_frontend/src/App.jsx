@@ -1,9 +1,9 @@
 import {
 	BrowserRouter,
 	Routes,
-	Route,
-	Link
+	Route
 } from 'react-router-dom';
+
 
 // import components
 import Dashboard from './Dashboard/Dashboard';
@@ -19,6 +19,7 @@ import BlogPage from './Routes/BlogPage';
 import ContactPage from './Routes/ContactPage';
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ForgotPassword from './Routes/ForgotPassword';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
       <Route path='/authenticate' element={<Login/>} />
       <Route path='/resetpassword' element={<ResetPassword/>} />
       <Route path='/changepassword' element={<ChangePassword/>} />
+      <Route path='/forgotpassword' element={<ForgotPassword/>} />
     </Routes>
     <Footer/>
   </BrowserRouter>
