@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Outlet, Link } from 'react-router-dom';
 
 // import data
-import { navData } from '../data';
+import { navData } from './data';
 
 const Nav = () => {
   return (
+    <>
     <nav className='flex items-center'>
       <ul className='flex gap-x-8'>
         {navData.map((item, index) => {
@@ -21,6 +22,8 @@ const Nav = () => {
         })}
       </ul>
     </nav>
+    <Outlet/>
+    </>
   );
 };
 

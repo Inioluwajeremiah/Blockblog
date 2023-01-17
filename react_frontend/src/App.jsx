@@ -20,6 +20,7 @@ import ContactPage from './Routes/ContactPage';
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ForgotPassword from './Routes/ForgotPassword';
+import NoPage from './Routes/NoPage';
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
       <Route path='/resetpassword' element={<ResetPassword/>} />
       <Route path='/changepassword' element={<ChangePassword/>} />
       <Route path='/forgotpassword' element={<ForgotPassword/>} />
+      <Route path="*" element={<NoPage />} />
     </Routes>
     <Footer/>
   </BrowserRouter>

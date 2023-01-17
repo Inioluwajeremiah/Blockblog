@@ -85,6 +85,7 @@ const InputLabel = ({title}) => {
 // hande submit button
 
 const DashboardMain = () => {
+    const [authorsname, setAuthorsName] = useState('');
     const [postTitle, setPostTitle] = useState('');
     const [currentCategory, setCurrentCategory] = useState(''); 
     const [currentSubCategory, setCurrentSubCategory] = useState('');
@@ -165,7 +166,7 @@ const DashboardMain = () => {
         // blognetwork contract to add data to blockchain
         console.log(postTitle, currentCategory, currentSubCategory, postContent, imageHashResult);
         console.log(BlogNetworkContract);
-        BlogNetworkContract.createPost(postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+        BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
         // try {
         //     BlogNetworkContract.createPost(postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
         // } catch (error) {
@@ -196,6 +197,9 @@ const DashboardMain = () => {
 
         <section id='newpost' className='mx-4 shadow-lg p-4'>
             <h2 className='text-text-color font-bold text-lg mb-2'>New Post</h2>
+            
+            <InputLabel title="Author"/>
+            <InputComponent type="text" placeholder="Name" name="authorsname" id="authorsname" onChange={(atn) => setAuthorsName(atn.target.value)}/>
             
             <InputLabel title="Title"/>
             <InputComponent type="text" placeholder="Title" name="posttitle" id="posttitle" onChange={(title) => setPostTitle(title.target.value)}/>

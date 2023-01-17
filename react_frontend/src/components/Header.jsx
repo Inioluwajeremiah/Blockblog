@@ -22,17 +22,18 @@ const Header = ({ setNavMobile }) => {
         {/* logo */}
         <Link to='/'>
           <img src={Logo} alt='' className='w-[60px] h-[60px]'
-                  data-aos='fade-down'
-                  data-aos-delay='100'
-                  data-aos-duration='2000'
+                  // data-aos='fade-down'
+                  // data-aos-delay='100'
+                  // data-aos-duration='2000'
           />
         </Link>
 
         {/* nav & btns */}
         <div className='hidden lg:flex gap-x-[30px]'
-          data-aos='fade-down'
-          data-aos-delay='100'
-          data-aos-duration='2000'>
+          // data-aos='fade-down'
+          // data-aos-delay='100'
+          // data-aos-duration='2000'
+          >
           <Nav />
           <AccountBtns />
         </div>

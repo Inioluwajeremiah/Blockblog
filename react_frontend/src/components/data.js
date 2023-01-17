@@ -1,8 +1,8 @@
 // import images
-import BusinessImg from './assets/business.png';
-import Startup from './assets/startup.png';
-import Economy from './assets/Economy.png';
-import Technology from './assets/Technology.png';
+import BusinessImg from '../assets/business.png';
+import Startup from '../assets/startup.png';
+import Economy from '../assets/Economy.png';
+import Technology from '../assets/Technology.png';
 //
 
 

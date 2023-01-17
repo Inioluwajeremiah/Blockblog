@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // import data
-import { category } from '../data';
+import { category } from './data';
 
 // import icons
 import { IoIosArrowForward } from 'react-icons/io';

@@ -7,9 +7,9 @@
 const hre = require("hardhat");
 
 const main = async () => {
-  const BlockNetwork = await hre.ethers.getContractFactory("BlockNetwork");
-  const blockNetwork = await BlockNetwork.deploy();
-  await blockNetwork.deployed();
+  const BlockBlog = await hre.ethers.getContractFactory("BlockBlog");
+  const blockBlog = await BlockBlog.deploy();
+  await blockBlog.deployed();
   console.log(`Transactions deployed to ${blockNetwork.address}`);
   // Transactions deployed to 0x723146f6ec351740B12EF0A42e09ae63a43B31fe
 }

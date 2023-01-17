@@ -5,6 +5,8 @@ import { BlockBlogAddress, BlockNetworkABI } from '../assets/constants';
 
 export const BlockBlogContext = React.createContext();
 
+if(!window.ethereum) alert("Install a cryptocurrency wallet to continue")
+
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner()
 const BlogNetworkContract = new ethers.Contract(BlockBlogAddress, BlockNetworkABI, signer);
@@ -22,6 +24,7 @@ export const ContextProvider = ({children}) => {
     const [allPosts, getAllPosts] = useState([]);
 
     console.log(blockAccount);
+
 
     const addToBlockChain = async ({title, category, subcategory, description, hashImage}) => {
         BlogNetworkContract.addToBlockChain
@@ -49,7 +52,9 @@ export const ContextProvider = ({children}) => {
 
     //  connect wallet
     const connectWallet = async () => {
-        if (ethereum) {
+        // if(!window.ethereum) alert("Install a cryptocurrency wallet to continue")
+        
+        if (window.ethereum) {
             const getAccounts = await ethereum.request({method: 'eth_requestAccounts'});
             setBlockAccount(getAccounts[0]);
         } else {
@@ -60,8 +65,14 @@ export const ContextProvider = ({children}) => {
     }
     
     useEffect(() => {
+        // if(!window.ethereum) alert("Install a cryptocurrency wallet to continue")
         connectWallet()
+       
     })
+    // if (!window.ethereum) return (
+    //     <div>"Install a cryptocurrency wallet to continue</div>
+    // )
+
     
     return (
         <BlockBlogContext.Provider value={{connectWallet, blockAccount, BlogNetworkContract, allPosts}}>
