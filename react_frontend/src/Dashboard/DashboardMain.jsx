@@ -164,15 +164,16 @@ const DashboardMain = () => {
     const SubmitForm = async (e) => {
         e.preventDefault()
         // blognetwork contract to add data to blockchain
-        console.log(postTitle, currentCategory, currentSubCategory, postContent, imageHashResult);
+        console.log(authorsname, postTitle, currentCategory, currentSubCategory, postContent, imageHashResult);
         console.log(BlogNetworkContract);
-        BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
-        // try {
-        //     BlogNetworkContract.createPost(postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
-        // } catch (error) {
-        //     alert("error")
-            
-        // }
+        // await (await marketContract.CreateNFTItem(transactionId, PriceTag, tokenContract.address)).wait();
+        // await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+        try {
+
+            await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+        } catch (error) {
+            alert(error)
+        }
     }
 
     // useEffect( () => {
@@ -233,10 +234,10 @@ const DashboardMain = () => {
             />
             </div>
             
-            {/* <div id="displayContent" className="mx-4">
+            <div id="displayContent" className="mx-4">
                 
                 
-            </div> */}
+            </div>
 
             <InputLabel title="Add Image"/>
             <input type="file" accept="image/*" onChange={GetFile} id="upload-btn"/>

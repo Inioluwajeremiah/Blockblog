@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { ethers } from 'ethers'
 
-import { BlockBlogAddress, BlockNetworkABI } from '../assets/constants';
+import { BlockBlogAddress, BlockNetworkABI } from '../../BlockBlogContractData';
 
 export const BlockBlogContext = React.createContext();
 
@@ -22,27 +22,24 @@ const BlogNetworkContract = new ethers.Contract(BlockBlogAddress, BlockNetworkAB
 export const ContextProvider = ({children}) => {
     const [blockAccount, setBlockAccount] = useState('');
     const [allPosts, getAllPosts] = useState([]);
+    const [blogCount, setBlogCount] = useState(0)
 
     console.log(blockAccount);
 
 
-    const addToBlockChain = async ({title, category, subcategory, description, hashImage}) => {
-        BlogNetworkContract.addToBlockChain
-    }
-
-    const retrievePosts = async() =>  {
+    const retrievePosts = async () =>  {
         try {
-            const blogCounter =  await BlogNetworkContract.blogCounter.call();
-            console.log("posts => ", blogCounter.toNumber());
-            const countblog = blogCounter.toNumber();
-            setBlogCount(countblog);
+            let blogCounter =  await BlogNetworkContract.blogCounter();
+            console.log("posts => ", blogCounter.toString());
+            const blogCount= blogCounter.toString();
+            setBlogCount(blogCount);
             console.log("blogCount => ", blogCount);
 
-            for (let i = blogCount; i >= 1; i--) {
+            for (let i = blogCount; i >= 1; i++) {
                     console.log("index ", i);
-                let blog_Post = await BlogNetworkContract.blogPosts(i);
-                console.log("blog post => ", blog_Post);
-                getAllPosts(blog_Post);
+                let post = await BlogNetworkContract.blogPosts(i);
+                console.log("blog post => ", post);
+                getAllPosts(post);
               }
             // console.log(iposts);
         } catch (error) {
@@ -65,8 +62,9 @@ export const ContextProvider = ({children}) => {
     }
     
     useEffect(() => {
-        // if(!window.ethereum) alert("Install a cryptocurrency wallet to continue")
+       
         connectWallet()
+        retrievePosts()
        
     })
     // if (!window.ethereum) return (

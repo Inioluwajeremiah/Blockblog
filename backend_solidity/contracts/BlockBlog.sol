@@ -5,7 +5,7 @@ pragma solidity 0.8.17;
 contract BlockBlog {
     string public name; 
 
-    uint public blogCounter = 0;
+    uint public blogCounter;
 
     mapping(uint=>Post) public blogPosts;
 
@@ -18,6 +18,8 @@ contract BlockBlog {
         string content;
         address payable author;
         string imageHash;
+        uint likes;
+        uint postDate;
     }
 
     event PostCreated(
@@ -30,6 +32,21 @@ contract BlockBlog {
         address author,
         string imageHash
     );
+
+    // struct PostComment{
+    //     uint postId;
+    //     uint commentId;
+    //     address authorsAddress;
+    //     address commentatorAddress;
+    //     string comment;
+    // }
+    // event CommentEvent (
+    //     uint postId,
+    //     uint commentId,
+    //     address authorsAddress,
+    //     address commentatorAddress,
+    //     string comment
+    // )
     
     event PostTipped(
         uint id,
@@ -43,10 +60,7 @@ contract BlockBlog {
         // string imageHash
     );
 
-    // constructor() public {
-    //     name = "Post Created";
-    // }
-
+ 
     function createPost(string memory authorsname, string memory postTitle, string memory postCategory, string memory postSubcategory, string memory content, string memory imageHash) public{
         
         //incrementing posts
@@ -63,21 +77,19 @@ contract BlockBlog {
             //require valid content
         require(bytes(content).length > 0, "Content  is empty");
             //require valid author address
-        require(msg.sender!=address(0));
+        require(msg.sender!=address(0), "No valid address");
             //require valid image hash from ipfs
         require(bytes(imageHash).length > 0, "No hashed image uri");
         
       
 
         //adding posts to the list of posts
-        blogPosts[blogCounter] = Post(blogCounter, authorsname, postTitle, postCategory, postSubcategory, content, payable(msg.sender), imageHash );
+        blogPosts[blogCounter] = Post(blogCounter, authorsname, postTitle, postCategory, postSubcategory, content, payable(msg.sender), imageHash, 0, block.timestamp );
         //trigger event
         emit PostCreated(blogCounter, authorsname, postTitle, postCategory, postSubcategory, content,payable(msg.sender), imageHash );
     }
 
-    function getPosts() public view returns (Post[] memory) {
-
-    }
+   
 
     // function tipPost(uint idx) public payable{
     //     //validate the id
@@ -92,5 +104,18 @@ contract BlockBlog {
     //     // update the post with incremented tip amount
     //     blogPosts[idx] = _t;
     //     emit PostTipped(idx, _t.content, _t.tip, _author);
+    // }
+
+    function Like (uint _id) external {
+       
+        Post storage post = blogPosts[_id];
+        post.likes +=1;
+    }
+
+    // function Comment (uint _id) external {
+
+
+
+    //     emit CommentEvent(_id, )
     // }
 }

@@ -10,7 +10,7 @@ const main = async () => {
   const BlockBlog = await hre.ethers.getContractFactory("BlockBlog");
   const blockBlog = await BlockBlog.deploy();
   await blockBlog.deployed();
-  console.log(`Transactions deployed to ${blockNetwork.address}`);
+  console.log(`Transactions deployed to ${blockBlog.address}`);
   // Transactions deployed to 0x723146f6ec351740B12EF0A42e09ae63a43B31fe
 }
 
