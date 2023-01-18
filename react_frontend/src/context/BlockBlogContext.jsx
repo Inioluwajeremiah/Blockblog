@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { ethers } from 'ethers'
 
+
 import { BlockBlogAddress, BlockNetworkABI } from '../../BlockBlogContractData';
 
 export const BlockBlogContext = React.createContext();
@@ -23,27 +24,46 @@ export const ContextProvider = ({children}) => {
     const [blockAccount, setBlockAccount] = useState('');
     const [allPosts, getAllPosts] = useState([]);
     const [blogCount, setBlogCount] = useState(0)
+    const [contextLoading, setContextLoading] = useState(false);
+    const []
 
     console.log(blockAccount);
 
 
     const retrievePosts = async () =>  {
+        setContextLoading(true)
         try {
             let blogCounter =  await BlogNetworkContract.blogCounter();
             console.log("posts => ", blogCounter.toString());
             const blogCount= blogCounter.toString();
             setBlogCount(blogCount);
             console.log("blogCount => ", blogCount);
-
-            for (let i = blogCount; i >= 1; i++) {
+            let postArray = [];
+            for (let i = 1; i <= blogCount; i++) {
                     console.log("index ", i);
                 let post = await BlogNetworkContract.blogPosts(i);
                 console.log("blog post => ", post);
-                getAllPosts(post);
+                let postdata = {
+                    id: post.id.toString(),
+                    author: post.authorsName,
+                    title: post.postTitle,
+                    cat: post.postCategory,
+                    subcat: post.postSubCategory,
+                    content: post.content,
+                    authorsadr: post.author,
+                    imageuri: post.imageHash,
+                    likes: post.likes.toString(),
+                    date: post.postDate.toString()
+                }
+                postArray.push(postdata)
+    
               }
+              getAllPosts(postArray);
+              setContextLoading(false)
             // console.log(iposts);
         } catch (error) {
-            console.log(error);   
+            console.log(error);  
+            setContextLoading(false) 
         }
     }
 
@@ -66,14 +86,14 @@ export const ContextProvider = ({children}) => {
         connectWallet()
         retrievePosts()
        
-    })
+    }, [])
     // if (!window.ethereum) return (
     //     <div>"Install a cryptocurrency wallet to continue</div>
     // )
 
     
     return (
-        <BlockBlogContext.Provider value={{connectWallet, blockAccount, BlogNetworkContract, allPosts}}>
+        <BlockBlogContext.Provider value={{connectWallet, blockAccount, BlogNetworkContract, allPosts, retrievePosts, allPosts, contextLoading }}>
             {children}
         </BlockBlogContext.Provider>
     );

@@ -12,6 +12,7 @@ import ipfs from '../assets/ipfs';
 import { PINATA_API_KEY, PINATA_API_SECRET_KEY , PINATA_API_JWT} from '../../ipfsconfig';
 import axios from 'axios';
 import profileImage from '../assets/images/avartar10.png';
+import Spinner from '../components/Spinner';
 
 
 
@@ -93,9 +94,10 @@ const DashboardMain = () => {
     const [fileImage, setFileImage] = useState(null);
     const [imageHashResult, setImageHashResult] = useState('');
     const [blogCount, setBlogCount] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     
-    const {connectWallet, blockAccount, BlogNetworkContract} = useContext(BlockBlogContext);
+    const {connectWallet, blockAccount, BlogNetworkContract, retrievePosts, allPosts, contextLoading} = useContext(BlockBlogContext);
     
 
     
@@ -134,6 +136,8 @@ const DashboardMain = () => {
         setFileImage(selectedImage);
 
         if (selectedImage)  {
+
+            setLoading(true)
             try {
                 const formData = new FormData();
                 formData.append("file", selectedImage); 
@@ -151,10 +155,12 @@ const DashboardMain = () => {
                 console.log(uploadFile.data.IpfsHash);
                 console.log("hash => ", hash);
                 setImageHashResult(hash)
-                console.log("image hash => ", imageHashResult);    
+                console.log("image hash => ", imageHashResult);  
+                setLoading(false)  
             } catch (error) {
                 console.log("Error sending File to IPFS: ")
                 console.log(error.message, error.request, error.response)
+                setLoading(false);
             }
         }
     }
@@ -164,6 +170,7 @@ const DashboardMain = () => {
     const SubmitForm = async (e) => {
         e.preventDefault()
         // blognetwork contract to add data to blockchain
+        setLoading(true)
         console.log(authorsname, postTitle, currentCategory, currentSubCategory, postContent, imageHashResult);
         console.log(BlogNetworkContract);
         // await (await marketContract.CreateNFTItem(transactionId, PriceTag, tokenContract.address)).wait();
@@ -171,14 +178,16 @@ const DashboardMain = () => {
         try {
 
             await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+            setLoading(false)
         } catch (error) {
             alert(error)
+            setLoading(false)
         }
     }
 
-    // useEffect( () => {
-    //     retrievePosts();
-    // }, [])
+    useEffect( () => {
+        retrievePosts();
+    }, [])
 
   return (
     <div className='w-[100%] lg:w-[56%] mx-[auto] list-disc '>
@@ -195,7 +204,12 @@ const DashboardMain = () => {
                         {/* <div>{imageBuffer}</div> */}
             </div>                
         </div>
-
+        { loading ? 
+           <Spinner/>     
+          :
+          ""
+        }
+      
         <section id='newpost' className='mx-4 shadow-lg p-4'>
             <h2 className='text-text-color font-bold text-lg mb-2'>New Post</h2>
             
@@ -264,7 +278,7 @@ const DashboardMain = () => {
                 </thead>
                 <tbody>
                     {
-                        UserPostData.slice(0,5).map((dataItem, index) => (
+                        allPosts.slice(0,5).map((dataItem, index) => (
                             <TableRow key={index} 
                                 postNo={index+1}
                                 title ={dataItem.title}
