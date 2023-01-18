@@ -25,7 +25,7 @@ export const ContextProvider = ({children}) => {
     const [allPosts, getAllPosts] = useState([]);
     const [blogCount, setBlogCount] = useState(0)
     const [contextLoading, setContextLoading] = useState(false);
-    const []
+    // const []
 
     console.log(blockAccount);
 
