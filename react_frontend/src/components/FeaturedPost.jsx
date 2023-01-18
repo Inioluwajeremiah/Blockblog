@@ -55,13 +55,12 @@ const FeaturedPost = () => {
             <div className='space-y-10'>
                 <div className=' p-3'>
                   <p className='text-sm text-stone-500 mb-1'>By Jeremiah Inioluwa <span className='border-l-2 border-stone-400 px-3'>Dec 1, 2022</span> </p>
-                
-                <h3 className='font-bold text-2xl'>Building a decentralized application from scratch with reactjs, tailwindcss, nextjs, solidity free</h3>
+                   <h3 className='font-bold text-2xl'>Building a decentralized application from scratch with reactjs, tailwindcss, nextjs, solidity free</h3>
                 </div>
 
                 <div className='bg-gray p-3'>
                   <p className='text-sm text-stone-500 mb-1'>By Jeremiah Inioluwa <span className='border-l-2 border-stone-400 px-3'>Dec 1, 2022</span> </p>
-                
+              
                 <h3 className='font-bold text-2xl'>Building a decentralized application from scratch with reactjs, tailwindcss, nextjs, solidity free</h3>
                 </div>
 
@@ -72,7 +71,7 @@ const FeaturedPost = () => {
                 </div>
 
                 <div className='bg-gray p-3'>
-                  <p className='text-sm text-stone-500 mb-1'>By Jeremiah Inioluwa <span className='border-l-2 border-stone-400 px-3'>Dec 1, 2022</span> </p>
+                  <p className='text-sm text-stone-500 mb-1'>By Jeremiah Inioluwa<span className='border-l-2 border-stone-400 px-3'>Dec 1, 2022</span> </p>
                 
                 <h3 className='font-bold text-2xl'>Building a decentralized application from scratch with reactjs, tailwindcss, nextjs, solidity free</h3>
                 </div>

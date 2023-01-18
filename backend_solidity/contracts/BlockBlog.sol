@@ -6,9 +6,9 @@ contract BlockBlog {
     string public name; 
 
     uint public blogCounter;
+    uint public profileCount;
 
-    mapping(uint=>Post) public blogPosts;
-
+// create struct for each article
     struct Post {
         uint id;
         string authorsName;
@@ -22,6 +22,7 @@ contract BlockBlog {
         uint postDate;
     }
 
+//    create post event
     event PostCreated(
         uint id,
         string authorsName,
@@ -60,6 +61,26 @@ contract BlockBlog {
         // string imageHash
     );
 
+    // create struct for profile
+    struct Profile {
+        uint profileId;
+        string profileName;
+        string profileEmail;
+        string profileState;
+        string profileCountry
+    }
+
+    event ProfileEvent (
+        uint profileId,
+        string profileName,
+        string profileEmail,
+        string profileState,
+        string profileCountry,
+        string profileLocation
+    )
+
+    mapping(uint=>Post) public blogPosts;
+    mapping(uint => Profile) public profiles;
  
     function createPost(string memory authorsname, string memory postTitle, string memory postCategory, string memory postSubcategory, string memory content, string memory imageHash) public{
         
@@ -112,10 +133,10 @@ contract BlockBlog {
         post.likes +=1;
     }
 
-    // function Comment (uint _id) external {
+    function CreateProfile (string _profileName, string _profileEmail, string _profileCountry, string _profileState,  string _profileLocation) {
+        profileCount += 1;
 
-
-
-    //     emit CommentEvent(_id, )
-    // }
+        profiles[profileCount] = Profile(profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation);
+        emit ProfileEvent (profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation);
+    }
 }

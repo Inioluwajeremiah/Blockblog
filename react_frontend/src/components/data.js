@@ -1,8 +1,10 @@
 // import images
 import BusinessImg from '../assets/business.png';
 import Startup from '../assets/startup.png';
-import Economy from '../assets/Economy.png';
+import PoliticsImg from '../assets/politics.png';
 import Technology from '../assets/Technology.png';
+import AcademicsImg from '../assets/academic.png';
+import ClimateImg from '../assets/climate.jpg';
 //
 
 
@@ -31,20 +33,26 @@ export const navData = [
 
 export const category = [
   {
+    image: AcademicsImg,
+    name: 'Academics',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, velit',
+  },
+  {
     image: BusinessImg,
     name: 'Business',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, velit',
   },
   {
-    image: Startup,
-    name: 'Startup',
+    image: ClimateImg,
+    name: 'Climate',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, velit',
   },
   {
-    image: Economy,
-    name: 'Economy',
+    image: PoliticsImg,
+    name: 'Politics',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, velit',
   },

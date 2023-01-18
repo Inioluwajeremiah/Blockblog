@@ -53,8 +53,8 @@ const DashboardLeftNav = () => {
                     }
                     <NavItem icon={<AiOutlineHome/>} title="Home" link=""/>
                     <NavItem icon={<MdOutlineSchool/>} title="Academy" link="/academy" />
+                    <NavItem icon={<AiOutlineBank/>} title="Business" link="/business" />
                     <NavItem icon={<TiWeatherStormy/>} title="Climate" link="/climate" />
-                    <NavItem icon={<AiOutlineBank/>} title="Finance" link="/finance" />
                     <NavItem icon={<RiGovernmentLine/>} title="Politics" link="/politics" />
                     <NavItem icon={<FaRobot/>} title="Technology" link="/technology"/>
                     <div className='h-[1px] w-full bg-[#ddd] my-2'></div>
