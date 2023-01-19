@@ -34,29 +34,208 @@ const PostCard = ({imageuri, category, title}) => {
     )
     }
 
-const BlogPosts = () => {
+const BlogPosts = (props) => {
       // item name state
   const [itemName, setItemName] = useState('Bitcoin');
-  const {allPosts} = useContext(BlockBlogContext);
+  const {allPosts, academyPosts, businessPosts, climatePosts, politicsPosts, technologyPosts} = useContext(BlockBlogContext);
 
   return (
     <div className='px-12 mb-20 mt-24'>
         <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-x-4'>
             <div className='grid grid-cols-1 items-start gap-y-10'>
 
+                {/* latest post on academy  */}
                 {
-                    allPosts.length > 0 ? 
-                    allPosts.slice(0,4).map((item, index) => 
-                        <PostCard key={index} 
-                            title={item.title}
-                            category= {item.cat}
-                            imageuri={item.imageuri}
-                        />
+                    academyPosts.length > 0 ? 
+                    academyPosts.slice(-1).map((item, index) => 
+                    <Link to={`/${item.title}`}
+                    state={{
+                        no: index, id: item.id, author_name: item.author, img: item.imageuri, 
+                        title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
+                        authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: academyPosts 
+                    }}
+                    >
+                        <div className='space-y-2 flex items-center gap-x-6'>
+                           
+                            <div className='w-[100%] h-[200px] lg:w-[100%]'>
+                                <img src={item.imageuri} alt="" className='w-full h-full' />
+                            </div>
+                            <div className='relative top-11 md:top-0'>
+                                    <p className='text-gray-500'>
+                                        {item.cat}
+                                    </p>
+                                        <h2 className='font-bold text-xl md:text-2xl'>
+                                        {item.title}
+                                    </h2>
+                                    <div className='text-gray-600 flex flex-row justify-between w-[100%]'>
+                                        <p>{item.subcat}</p>
+                                        <p>{item.date}</p>   
+                                    </div>
+                            </div>
+                            
+                        </div>
+                        </Link>
                     )
-                    : <div><p>No Recent Articles</p></div>
+                   
+                    // : <div><p>No Recent Articles</p></div>
+                    : ""
+                   
+                }
+
+                 {/* latest post on business  */}
+                 {
+                    businessPosts.length > 0 ? 
+                    businessPosts.slice(-1).map((item, index) => 
+                        // <PostCard key={index} 
+                        //     title={item.title}
+                        //     category= {item.cat}
+                        //     imageuri={item.imageuri}
+                        // />
+                        <div className='space-y-2 flex items-center gap-x-6'>
+                            <Link to={`/${item.title}`}
+                                state={{
+                                    no: index, id: item.id, author_name: item.author, img: item.imageuri, 
+                                    title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
+                                    authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: businessPosts 
+                                }}
+                            >
+                                <div className='w-[100%] h-[200px] lg:w-[100%]'>
+                                    <img src={item.imageuri} alt="" className='w-full h-full' />
+                                </div>
+                                <div className='relative top-11 md:top-0'>
+                                        <p className='text-gray-500'>
+                                            {item.cat}
+                                        </p>
+                                            <h2 className='font-bold text-xl md:text-2xl'>
+                                            {item.title}
+                                        </h2>
+                                        <div className='text-gray-600 flex flex-row justify-between w-[100%]'>
+                                            <p>{item.subcat}</p>
+                                            <p>{item.date}</p>   
+                                        </div>
+                                </div>
+                            </Link>
+                        </div>
+                    )
+                    // : <div><p>No Recent Articles</p></div>
+                    : ""
+                }
+
+                 {/* latest post on climate  */}
+                 {
+                    climatePosts.length > 0 ? 
+                    climatePosts.slice(-1).map((item, index) => 
+                        
+                        <div className='space-y-2 flex items-center gap-x-6'>
+                            <Link to={`/${item.title}`}
+                                state={{
+                                    no: index, id: item.id, author_name: item.author, img: item.imageuri, 
+                                    title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
+                                    authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: climatePosts 
+                                }}
+                            >
+                                <div className='w-[100%] h-[200px] lg:w-[100%]'>
+                                    <img src={item.imageuri} alt="" className='w-full h-full' />
+                                </div>
+                                <div className='relative top-11 md:top-0'>
+                                        <p className='text-gray-500'>
+                                            {item.cat}
+                                        </p>
+                                            <h2 className='font-bold text-xl md:text-2xl'>
+                                            {item.title}
+                                        </h2>
+                                        <div className='text-gray-600 flex flex-row justify-between w-[100%]'>
+                                            <p>{item.subcat}</p>
+                                            <p>{item.date}</p>   
+                                        </div>
+                                </div>
+                            </Link>
+                        </div>
+                    )
+                    // : <div><p>No Recent Articles</p></div>
+                    : ""
+                }
+
+                 {/* latest post on academy  */}
+                 {
+                    politicsPosts.length > 0 ? 
+                    politicsPosts.slice(-1).map((item, index) => 
+                        // <PostCard key={index} 
+                        //     title={item.title}
+                        //     category= {item.cat}
+                        //     imageuri={item.imageuri}
+                        // />
+                        <div className='space-y-2 flex items-center gap-x-6'>
+                            <Link to={`/${item.title}`}
+                                state={{
+                                    no: index, id: item.id, author_name: item.author, img: item.imageuri, 
+                                    title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
+                                    authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: politicsPosts
+                                }}
+                            >
+                                <div className='w-[100%] h-[200px] lg:w-[100%]'>
+                                    <img src={item.imageuri} alt="" className='w-full h-full' />
+                                </div>
+                                <div className='relative top-11 md:top-0'>
+                                        <p className='text-gray-500'>
+                                            {item.cat}
+                                        </p>
+                                            <h2 className='font-bold text-xl md:text-2xl'>
+                                            {item.title}
+                                        </h2>
+                                        <div className='text-gray-600 flex flex-row justify-between w-[100%]'>
+                                            <p>{item.subcat}</p>
+                                            <p>{item.date}</p>   
+                                        </div>
+                                </div>
+                            </Link>
+                        </div>
+                    )
+                    // : <div><p>No Recent Articles</p></div>
+                    : ""
+                }
+
+                 {/* latest post on technology  */}
+                 {
+                    technologyPosts.length > 0 ? 
+                    technologyPosts.slice(-1).map((item, index) => 
+                        // <PostCard key={index} 
+                        //     title={item.title}
+                        //     category= {item.cat}
+                        //     imageuri={item.imageuri}
+                        // />
+                        <div className='space-y-2 flex items-center gap-x-6'>
+                            <Link to={`/${item.title}`}
+                                state={{
+                                    no: index, id: item.id, author_name: item.author, img: item.imageuri, 
+                                    title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
+                                    authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: technologyPosts 
+                                }}
+                            >
+                                <div className='w-[100%] h-[200px] lg:w-[100%]'>
+                                    <img src={item.imageuri} alt="" className='w-full h-full' />
+                                </div>
+                                <div className='relative top-11 md:top-0'>
+                                        <p className='text-gray-500'>
+                                            {item.cat}
+                                        </p>
+                                            <h2 className='font-bold text-xl md:text-2xl'>
+                                            {item.title}
+                                        </h2>
+                                        <div className='text-gray-600 flex flex-row justify-between w-[100%]'>
+                                            <p>{item.subcat}</p>
+                                            <p>{item.date}</p>   
+                                        </div>
+                                </div>
+                            </Link>
+                        </div>
+                    )
+                    // : <div><p>No Recent Articles</p></div>
+                    : ""
                 }
             </div>
 
+                {/* category of items */}
             <div className='mt-[100px] lg:mt-0'>
                 <h2 className='section-title text-center' >Category</h2>
                 {/* items */}
@@ -67,7 +246,11 @@ const BlogPosts = () => {
                         return (
                         // item
                         // <Link to="/articles">
-                            <Link to="/articles"
+                            <Link to="/articles" state= {{
+                                // pathname: "/articles" ,
+                                category: {name}
+                            }}
+                            
                                 onClick={() => setItemName(name)}
                                 className={`${
                                 name === itemName ? 'bg-blue text-black' : 'bg-white border-2 border-gray-600'

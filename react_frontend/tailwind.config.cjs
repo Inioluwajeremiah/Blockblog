@@ -15,6 +15,10 @@ module.exports = {
         "bg-color": "var(--bg-color)",
         "app-color": "var(--app-color)"
       },
+      screens: {
+        'xsm': '300px',
+        'smii': '420px',
+      }
     },
   },
   plugins: [],

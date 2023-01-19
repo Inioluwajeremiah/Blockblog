@@ -34,7 +34,7 @@ export const navData = [
 export const category = [
   {
     image: AcademicsImg,
-    name: 'Academics',
+    name: 'Academy',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, velit',
   },

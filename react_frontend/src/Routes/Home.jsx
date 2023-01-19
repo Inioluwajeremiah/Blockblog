@@ -27,6 +27,7 @@ const Home = () => {
         duration: 2500,
         delay: 400,
       });
+      window.addEventListener('load', Aos.refresh)
     });
   return (
     <div className=''>

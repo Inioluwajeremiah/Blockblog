@@ -2,7 +2,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import {AiOutlineSearch} from 'react-icons/ai';
 import { UserPostData } from './UserPostsData';
-import { AnalyticsCardData } from './AnalyticsCardData';
 import DashBoardGraph from './DashBoardGraph';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -13,6 +12,11 @@ import { PINATA_API_KEY, PINATA_API_SECRET_KEY , PINATA_API_JWT} from '../../ipf
 import axios from 'axios';
 import profileImage from '../assets/images/avartar10.png';
 import Spinner from '../components/Spinner';
+import { AiOutlineBank } from 'react-icons/ai';
+import {TiWeatherStormy} from 'react-icons/ti';
+import {MdOutlineSchool} from 'react-icons/md';
+import {RiGovernmentLine} from 'react-icons/ri';
+import {FaRobot} from 'react-icons/fa';
 
 
 
@@ -50,7 +54,7 @@ const TableRow = ({postNo, title, category, subcategory, body, likes}) => {
             <TableCell tableText={title}/>
             <TableCell tableText={category}/>
             <TableCell tableText={subcategory}/>
-            <TableCell tableText={body}/>
+            <td className='items-left  p-2' dangerouslySetInnerHTML={{__html: body}}></td>
             <TableCell tableText={likes}/>
         </tr>
     )
@@ -93,12 +97,41 @@ const DashboardMain = () => {
     const [postContent, setpostContent] = useState('');
     const [fileImage, setFileImage] = useState(null);
     const [imageHashResult, setImageHashResult] = useState('');
-    const [blogCount, setBlogCount] = useState(0);
     const [loading, setLoading] = useState(false);
 
     
-    const {connectWallet, blockAccount, BlogNetworkContract, retrievePosts, allPosts, contextLoading} = useContext(BlockBlogContext);
-    
+    const {connectWallet, blogCount, blockAccount, BlogNetworkContract, retrievePosts, allPosts, personalPosts, academyPosts, businessPosts, climatePosts, politicsPosts, technologyPosts, contextLoading} = useContext(BlockBlogContext);
+  
+    console.log("personal posts => ", personalPosts);
+    const AnalyticsCardData = [
+        {
+            title: "Academy",
+            score:academyPosts.length,
+            icon: MdOutlineSchool,
+        },
+        {
+            title: "Business",
+            score: businessPosts.length,
+            icon: AiOutlineBank,
+        },
+        {
+            title: "Climate",
+            score: climatePosts.length,
+            icon: TiWeatherStormy,
+        },
+       
+        {
+            title: "Politics",
+            score: politicsPosts.length,
+            icon: RiGovernmentLine,
+        },
+        {
+            title: "Technology",
+            score: technologyPosts.length,
+            icon: FaRobot,
+        }
+        
+    ]
 
     
             // const iposts = retrievedposts.map((dataItem) => ({
@@ -185,8 +218,37 @@ const DashboardMain = () => {
         }
     }
 
+    const getPersonalArticle = async () => {
+        for (let i = 1; i <= blogCount; i++) {
+            console.log("index ", i);
+            let post = await BlogNetworkContract.blogPosts(i);
+            console.log("blog post => ", post);
+            let postdata = {
+                id: post.id.toString(),
+                author: post.authorsName,
+                title: post.postTitle,
+                cat: post.postCategory,
+                subcat: post.postSubCategory,
+                content: post.content,
+                authorsadr: post.author,
+                imageuri: post.imageHash,
+                likes: post.likes.toString(),
+                date: post.postDate.toString()
+            }
+            if (post.author.toLowerCase() == blockAccount.toLowerCase()) console.log("true");
+            console.log("author address mainnav 2 => ", blockAccount);
+            console.log("author address mainnav 1 => ", post.author.toLowerCase());
+        
+            }
+           
+            // setPersonalPosts(personalArray)
+
+    }
+  
+
     useEffect( () => {
         retrievePosts();
+        getPersonalArticle()
     }, [])
 
   return (
@@ -263,34 +325,41 @@ const DashboardMain = () => {
            
         </section>
 
-        <section id='myposts' className='mx-4 shadow-lg p-4 mt-12 overflow-x-scroll'>
-            <h2 className='text-text-color font-bold text-lg mb-2'>My Posts</h2>
-            <table className='px-4 lg:w-full'>
-                <thead className='text-theme-color bg-text-color  font-bold text-base lg:w-fit items-left justify-left px-4'>
-                    <tr> 
-                        <TableHeaderCell headerText="S/N" />
-                        <TableHeaderCell headerText="Title" />
-                        <TableHeaderCell headerText="Category" />
-                        <TableHeaderCell headerText="Sub Category" />
-                        <TableHeaderCell headerText="Body" />
-                        {/* <TableHeaderCell headerText="Likes" /> */}
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        allPosts.slice(0,5).map((dataItem, index) => (
+        <section id='myposts' className='max-h-[100vh] mx-4 shadow-lg p-4 mt-12 overflow-x-scroll overflow-y-scroll'>
+            <h2 className='text-text-color font-bold text-lg mb-2'>My Posts</h2> 
+                <table className='px-4 lg:w-full'>
+                    <thead className='text-theme-color bg-text-color  font-bold text-base lg:w-fit items-left justify-left px-4'>
+                        <tr> 
+                            <TableHeaderCell headerText="S/N" />
+                            <TableHeaderCell headerText="Title" />
+                            <TableHeaderCell headerText="Category" />
+                            <TableHeaderCell headerText="Sub Category" />
+                            <TableHeaderCell headerText="Body" />
+                            {/* <TableHeaderCell headerText="Likes" /> */}
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+                        {
+                            personalPosts.length > 0 ?
+                            personalPosts.map((dataItem, index) => 
                             <TableRow key={index} 
                                 postNo={index+1}
                                 title ={dataItem.title}
                                 category={dataItem.category}
                                 subcategory={dataItem.subcategory}
-                                body={dataItem.body}
+                                body={dataItem.content}
                                 // likes={dataItem.likes}
                             />
-                        ))
-                    }
-                </tbody>
-            </table>
+                            ) : 
+                            <TableRow postNo="Nil" title="nil" category="nil" subcategory="nil"
+                                body= "You have not published any article"
+                                
+                            />
+                        }
+                    </tbody>
+                </table>
+           
         </section>
 
         <section id='analytics' className='mx-4 shadow-lg p-4 mt-12'>
