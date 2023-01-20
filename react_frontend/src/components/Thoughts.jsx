@@ -3,17 +3,33 @@ import author from '../assets/author.jfif'
 import startup from '../assets/st.png'
 import Image from '../assets/img2.jpg'
 import { useLocation } from 'react-router-dom'
+import  { AiOutlineLike}  from 'react-icons/ai'
+import { useContext } from 'react'
+import { BlockBlogContext } from '../context/BlockBlogContext'
 
 const Thoughts = () => {
+
     const location = useLocation()
     
     const {no, id, author_name, img,  title, cat, subcat, content,authoradr, date, likes, allcats} = location.state;
+    const {BlogNetworkContract} = useContext(BlockBlogContext);
+
+    const LikeArticle = async () => {
+        try {
+            await (await BlogNetworkContract.Like(id)).wait();
+            window.location.reload()
+            
+        } catch (error) {
+            alert(error)
+        }
+    }
+    
   return (
     <div className='px-12 py-16'>
         <div className='flex items-center gap-x-4 ml-56'>
-            <div className='w-16 h-16 rounded-full  overflow-hidden bg-black'>
+            {/* <div className='w-16 h-16 rounded-full  overflow-hidden bg-black'>
                 <img src={img} alt="" className='w-full h-full object-cover'/>
-            </div>
+            </div> */}
                 <div className='self-end'>
                       <h3 className='font-bold text-xl'>{author_name}</h3>
                       <p className='font-semibold'>{`${authoradr.slice(0,5)}...${authoradr.slice(authoradr.length-5, authoradr.length)}`}</p>
@@ -31,7 +47,11 @@ const Thoughts = () => {
                     </h1>
                     <div className='flex items-center gap-x-3'>
                         <img src={img} alt="" className='w-4'/>
-                        <h2 className='font-bold'>{cat} </h2>
+                        <h2 className='font-bold'>{cat}  </h2>
+                        {/* <div className='flex flex-row gap-2 '> 
+                             <p onClick={LikeArticle}><AiOutlineLike /></p>
+                            {likes}
+                        </div> */}
                     </div>
             </div>
             <div className='h-[600px] w-full mb-6'>

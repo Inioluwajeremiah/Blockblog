@@ -1,3 +1,5 @@
+
+export const BlockBlogAddress = '0x6d62AdBC7292e4C74b80B3d379852397Ab46351F'
 export const BlockNetworkABI =  [
   {
     "anonymous": false,
@@ -227,10 +229,3 @@ export const BlockNetworkABI =  [
     "type": "function"
   }
 ]
-export const BlockBlogAddress = '0x6d62AdBC7292e4C74b80B3d379852397Ab46351F'
-// '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
-// '0x6d62AdBC7292e4C74b80B3d379852397Ab46351F'
-// '0x7af97E14d2b4c7D02F51e09FEfF5525495B00dA8'
-// '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
-//  "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-// '0x8802635AD934D592815DDc8EB0fC262940a97d2F';

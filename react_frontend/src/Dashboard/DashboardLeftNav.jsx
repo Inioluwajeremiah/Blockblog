@@ -11,11 +11,11 @@ import { BlockBlogContext } from '../context/BlockBlogContext';
 import {AiOutlineMenu} from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-const NavItem = ({icon, title, link, ...children}) => {
+const NavItem = ({icon, title, link, catname, ...children}) => {
     return (
         <li className="flex flex-row gap-4 items-center p-2 text-text-color hover:cursor-pointer w-full hover:text-app-color hover:tracking-wide ease-in duration-500 "  {...children}>
             <span className='font-black text-app-color'>{icon}</span>
-            <Link to={link}>{title}</Link>
+            <Link to={link} state={{category: catname}}>{title}</Link>
         </li>
     )
 }
@@ -52,18 +52,18 @@ const DashboardLeftNav = () => {
                         <NavItem icon="" title="Connect Wallet" onClick={connectWallet} className="bg-app-color p-2 rounde-md" /> 
                     }
                     <NavItem icon={<AiOutlineHome/>} title="Home" link=""/>
-                    <NavItem icon={<MdOutlineSchool/>} title="Academy" link="/academy" />
-                    <NavItem icon={<AiOutlineBank/>} title="Business" link="/business" />
-                    <NavItem icon={<TiWeatherStormy/>} title="Climate" link="/climate" />
-                    <NavItem icon={<RiGovernmentLine/>} title="Politics" link="/politics" />
-                    <NavItem icon={<FaRobot/>} title="Technology" link="/technology"/>
+                    <NavItem icon={<MdOutlineSchool/>} title="Academy" link="/articles" catname="Academy" />
+                    <NavItem icon={<AiOutlineBank/>} title="Business" link="/articles" catname="Bsiness"/>
+                    <NavItem icon={<TiWeatherStormy/>} title="Climate" link="/articles" catname="Climate"/>
+                    <NavItem icon={<RiGovernmentLine/>} title="Politics" link="/articless" catname="Politics" />
+                    <NavItem icon={<FaRobot/>} title="Technology" link="/articles" catname="Technology"/>
                     <div className='h-[1px] w-full bg-[#ddd] my-2'></div>
                     
                     <NavItem icon={<AiOutlineEdit/>} title="New Post" link="#newpost"/>
                     <NavItem icon={<GoChecklist/>} title="My Posts" link="#myposts"/>
                     <NavItem icon={<IoAnalyticsOutline/>} title="Analytics" link="#analytics" />
                     <NavItem icon={<GoChecklist/>} title="Recent Posts" link="#recentposts" />
-                    <NavItem icon={<GoChecklist/>} title="Trending Posts" link="#trendingposts" />
+                    {/* <NavItem icon={<GoChecklist/>} title="Trending Posts" link="#trendingposts" /> */}
                     <div className='h-[1px] w-full bg-[#ddd] my-2'></div>
                     
                     <NavItem icon={<AiFillLock/>} title="Change Password" link="/changepassword"/>

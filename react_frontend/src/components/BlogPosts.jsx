@@ -53,7 +53,7 @@ const BlogPosts = (props) => {
                         no: index, id: item.id, author_name: item.author, img: item.imageuri, 
                         title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
                         authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: academyPosts 
-                    }}
+                    }} key={index}
                     >
                         <div className='space-y-2 flex items-center gap-x-6'>
                            
@@ -74,7 +74,7 @@ const BlogPosts = (props) => {
                             </div>
                             
                         </div>
-                        </Link>
+                    </Link>
                     )
                    
                     // : <div><p>No Recent Articles</p></div>
@@ -91,14 +91,14 @@ const BlogPosts = (props) => {
                         //     category= {item.cat}
                         //     imageuri={item.imageuri}
                         // />
-                        <div className='space-y-2 flex items-center gap-x-6'>
                             <Link to={`/${item.title}`}
                                 state={{
                                     no: index, id: item.id, author_name: item.author, img: item.imageuri, 
                                     title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
                                     authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: businessPosts 
-                                }}
+                                }} key = {index}
                             >
+                                 <div className='space-y-2 flex items-center gap-x-6'>
                                 <div className='w-[100%] h-[200px] lg:w-[100%]'>
                                     <img src={item.imageuri} alt="" className='w-full h-full' />
                                 </div>
@@ -114,8 +114,9 @@ const BlogPosts = (props) => {
                                             <p>{item.date}</p>   
                                         </div>
                                 </div>
-                            </Link>
+                           
                         </div>
+                        </Link>
                     )
                     // : <div><p>No Recent Articles</p></div>
                     : ""
@@ -126,14 +127,15 @@ const BlogPosts = (props) => {
                     climatePosts.length > 0 ? 
                     climatePosts.slice(-1).map((item, index) => 
                         
-                        <div className='space-y-2 flex items-center gap-x-6'>
+                       
                             <Link to={`/${item.title}`}
                                 state={{
                                     no: index, id: item.id, author_name: item.author, img: item.imageuri, 
                                     title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
                                     authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: climatePosts 
-                                }}
+                                }} key={index}
                             >
+                                 <div className='space-y-2 flex items-center gap-x-6'>
                                 <div className='w-[100%] h-[200px] lg:w-[100%]'>
                                     <img src={item.imageuri} alt="" className='w-full h-full' />
                                 </div>
@@ -149,8 +151,9 @@ const BlogPosts = (props) => {
                                             <p>{item.date}</p>   
                                         </div>
                                 </div>
-                            </Link>
+                           
                         </div>
+                         </Link>
                     )
                     // : <div><p>No Recent Articles</p></div>
                     : ""
@@ -165,15 +168,15 @@ const BlogPosts = (props) => {
                         //     category= {item.cat}
                         //     imageuri={item.imageuri}
                         // />
-                        <div className='space-y-2 flex items-center gap-x-6'>
                             <Link to={`/${item.title}`}
                                 state={{
                                     no: index, id: item.id, author_name: item.author, img: item.imageuri, 
                                     title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
                                     authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: politicsPosts
-                                }}
+                                }} key={index}
                             >
-                                <div className='w-[100%] h-[200px] lg:w-[100%]'>
+                                 <div className='space-y-2 flex items-center gap-x-6'>
+                                <div className='w-[100%] h-[200px] lg"w-[100%]'>
                                     <img src={item.imageuri} alt="" className='w-full h-full' />
                                 </div>
                                 <div className='relative top-11 md:top-0'>
@@ -188,8 +191,9 @@ const BlogPosts = (props) => {
                                             <p>{item.date}</p>   
                                         </div>
                                 </div>
-                            </Link>
+                            
                         </div>
+                        </Link>
                     )
                     // : <div><p>No Recent Articles</p></div>
                     : ""
@@ -204,14 +208,15 @@ const BlogPosts = (props) => {
                         //     category= {item.cat}
                         //     imageuri={item.imageuri}
                         // />
-                        <div className='space-y-2 flex items-center gap-x-6'>
+                       
                             <Link to={`/${item.title}`}
                                 state={{
                                     no: index, id: item.id, author_name: item.author, img: item.imageuri, 
                                     title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
                                     authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: technologyPosts 
-                                }}
+                                }} key={index}
                             >
+                                 <div className='space-y-2 flex items-center gap-x-6'>
                                 <div className='w-[100%] h-[200px] lg:w-[100%]'>
                                     <img src={item.imageuri} alt="" className='w-full h-full' />
                                 </div>
@@ -227,8 +232,8 @@ const BlogPosts = (props) => {
                                             <p>{item.date}</p>   
                                         </div>
                                 </div>
-                            </Link>
                         </div>
+                        </Link>
                     )
                     // : <div><p>No Recent Articles</p></div>
                     : ""
@@ -240,6 +245,8 @@ const BlogPosts = (props) => {
                 <h2 className='section-title text-center' >Category</h2>
                 {/* items */}
                 <div className='flex flex-col gap-y-5 items-center' >
+
+
                     {category.map((item, index) => {
                         // destructure item
                         const { image, name, description } = item;
@@ -248,7 +255,7 @@ const BlogPosts = (props) => {
                         // <Link to="/articles">
                             <Link to="/articles" state= {{
                                 // pathname: "/articles" ,
-                                category: {name}
+                                category: name
                             }}
                             
                                 onClick={() => setItemName(name)}

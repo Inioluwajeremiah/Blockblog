@@ -8,6 +8,8 @@ contract BlockBlog {
     uint public blogCounter;
     uint public profileCount;
 
+    // Likes[] likes;
+
 // create struct for each article
     struct Post {
         uint id;
@@ -33,21 +35,6 @@ contract BlockBlog {
         address author,
         string imageHash
     );
-
-    // struct PostComment{
-    //     uint postId;
-    //     uint commentId;
-    //     address authorsAddress;
-    //     address commentatorAddress;
-    //     string comment;
-    // }
-    // event CommentEvent (
-    //     uint postId,
-    //     uint commentId,
-    //     address authorsAddress,
-    //     address commentatorAddress,
-    //     string comment
-    // )
     
     event PostTipped(
         uint id,
@@ -67,7 +54,9 @@ contract BlockBlog {
         string profileName;
         string profileEmail;
         string profileState;
-        string profileCountry
+        string profileCountry;
+        string profileLocation;
+        string profileImageHash;
     }
 
     event ProfileEvent (
@@ -76,8 +65,9 @@ contract BlockBlog {
         string profileEmail,
         string profileState,
         string profileCountry,
-        string profileLocation
-    )
+        string profileLocation,
+        string profileImageHash
+    );
 
     mapping(uint=>Post) public blogPosts;
     mapping(uint => Profile) public profiles;
@@ -102,15 +92,16 @@ contract BlockBlog {
             //require valid image hash from ipfs
         require(bytes(imageHash).length > 0, "No hashed image uri");
         
-      
+        // string[] memory likeaddress;
+        // likeaddress[0] = '';
+        // //adding posts to the list of posts
+        //  likeaddress 
+        // string [] likeaddress;
 
-        //adding posts to the list of posts
         blogPosts[blogCounter] = Post(blogCounter, authorsname, postTitle, postCategory, postSubcategory, content, payable(msg.sender), imageHash, 0, block.timestamp );
-        //trigger event
+        //trigger event 
         emit PostCreated(blogCounter, authorsname, postTitle, postCategory, postSubcategory, content,payable(msg.sender), imageHash );
     }
-
-   
 
     // function tipPost(uint idx) public payable{
     //     //validate the id
@@ -130,13 +121,19 @@ contract BlockBlog {
     function Like (uint _id) external {
        
         Post storage post = blogPosts[_id];
-        post.likes +=1;
+        
+        // for (uint i=0; i<=post.likeaddress.length; i++) {
+        //     // if (post.likeaddress[i] != blockaccount) post.likes += 1;
+        //     require(keccak256(bytes(post.likeaddress[i])) != keccak256(abi.encodePacked(msg.sender)), "Address already liked this post");
+        //     post.likes += 1;
+        // }
+        post.likes += 1;
     }
 
-    function CreateProfile (string _profileName, string _profileEmail, string _profileCountry, string _profileState,  string _profileLocation) {
+    function CreateProfile (string memory _profileName, string memory _profileEmail, string memory _profileCountry, string memory _profileState,  string memory _profileLocation, string  memory _imageHash) public {
         profileCount += 1;
 
-        profiles[profileCount] = Profile(profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation);
-        emit ProfileEvent (profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation);
+        profiles[profileCount] = Profile(profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation, _imageHash);
+        emit ProfileEvent (profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation, _imageHash);
     }
 }

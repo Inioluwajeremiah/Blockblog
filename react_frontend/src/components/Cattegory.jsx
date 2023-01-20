@@ -5,6 +5,7 @@ import { category } from './data';
 
 // import icons
 import { IoIosArrowForward } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 const Category = () => {
   // item name state
@@ -30,7 +31,10 @@ const Category = () => {
             const { image, name, description } = item;
             return (
               // item
-              <div
+              <Link to="/articles" state= {{
+                // pathname: "/articles" ,
+                category: name
+            }}
                 onClick={() => setItemName(name)}
                 className={`${
                   name === itemName ? ' bg-blue text-black' : 'bg-white'
@@ -50,7 +54,7 @@ const Category = () => {
                   {/* btn */}
         
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

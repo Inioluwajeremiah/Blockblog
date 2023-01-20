@@ -26,15 +26,15 @@ const ReadPost = () => {
                     <div className='w-[100%] h-[300px] mx-auto '>
                         <img src={item.imageuri} alt="" className='w-full h-full object-cover resize-x' />
                     </div>
-                    <div className='relative top-11 md:top-0 p-4'>
+                    <div className='relative top-2 md:top-0 p-4'>
                             <p className='text-gray-500'>
                                 {item.cat}
                             </p>
                                 <h2 className='font-bold text-xl md:text-2xl'>{item.title}
                             </h2>
                             <div className='text-gray-500 flex flex-row justify-between w-[100%]'>
-                                <p className='p-2'>{item.date}</p>
-                                <p className='p-2'>{item.subcat}</p>
+                                <p>{item.date}</p>
+                                <p>{item.subcat}</p>
                                 
                             </div>
                     </div>

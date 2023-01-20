@@ -209,9 +209,14 @@ const DashboardMain = () => {
         // await (await marketContract.CreateNFTItem(transactionId, PriceTag, tokenContract.address)).wait();
         // await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
         try {
-
-            await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
-            setLoading(false)
+            if (!authorsname || !postTitle || !currentCategory || !currentSubCategory || !postContent || !imageHashResult) {
+                alert("input all fields") 
+                setLoading(false) 
+            } else { 
+                await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+                setLoading(false) 
+                
+            }
         } catch (error) {
             alert(error)
             setLoading(false)
@@ -300,12 +305,12 @@ const DashboardMain = () => {
             <CKEditor
                 editor={ ClassicEditor }
                 onReady={ ( editor ) => {
-                console.log( "CKEditor5 React Component is ready to use!", editor );
+                // console.log( "CKEditor5 React Component is ready to use!", editor );
                 } }
                 onChange={ ( event, editor ) => {
                 let data = editor.getData();
                 setpostContent(data)
-                console.log( data );
+                // console.log( data );
                 } }
             />
             </div>
@@ -379,11 +384,11 @@ const DashboardMain = () => {
 
             </div>
 
-            <div>
+            {/* <div>
                 <h3 className='text-text-color font-bold text-base mb-2'> Graph</h3>
                 <DashBoardGraph/>
 
-            </div>
+            </div> */}
         </section>
         
 

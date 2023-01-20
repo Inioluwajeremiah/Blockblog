@@ -41,8 +41,8 @@ const Posts = () => {
     
     // get the category of data from category name passed through link
     const location = useLocation()
-    const getcategory = location.state.category;
-    const category = getcategory.name
+    const category = location.state.category;
+    // const category = getcategory.name
 
     // console.log("category", category);
     // console.log("acamy posts => ", academyPosts);
