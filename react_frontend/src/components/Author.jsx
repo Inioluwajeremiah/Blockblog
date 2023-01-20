@@ -1,11 +1,17 @@
 import React from 'react'
 
 import {FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn} from 'react-icons/fa'
-import author from '../assets/author.jfif'
-import author2 from '../assets/author2.jfif'
-import author3 from '../assets/author3.jfif'
-import author4 from '../assets/author4.jfif'
-import author5 from '../assets/author.jfif'
+// import author from '../assets/author.jfif'
+// import author2 from '../assets/author2.jfif'
+// import author3 from '../assets/author3.jfif'
+// import author4 from '../assets/author4.jfif'
+// import author5 from '../assets/author.jfif'
+
+import author from '../../public/images/Inioluwa.'
+import author2 from '../../public/images/Victor.jpg'
+import author3 from '../../public/images/Saaka.jpg'
+import author4 from '../../public/images/Meshack.jpg'
+import author5 from '../../public/images/Davidson.jpg'
 
 const Author = () => {
   return (
@@ -86,7 +92,7 @@ const Author = () => {
 
       <div className='bg-gray hover:bg-yellow-100 rounded-xl shadow-primary text-center py-5'>
         <div className='w-24 h-24 rounded-full mx-auto overflow-hidden bg-black'>
-            <img src={author} alt="" className='w-full h-full object-cover'/>
+            <img src={author5} alt="" className='w-full h-full object-cover'/>
         </div>
         <h2 className='font-bold font-primary text-xl'>Davidson Idadakpoye</h2>
         <p className='mb-3 font-bold text-stone-600'>Solidity Developer</p>
