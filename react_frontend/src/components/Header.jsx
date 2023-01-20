@@ -35,7 +35,7 @@ const Header = ({ setNavMobile }) => {
           // data-aos-duration='2000'
           >
           <Nav />
-          <AccountBtns />
+          {/* <AccountBtns /> */}
         </div>
 
         {/* open nav btn */}

@@ -1,17 +1,13 @@
 import React from 'react'
 
 import {FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn} from 'react-icons/fa'
-// import author from '../assets/author.jfif'
-// import author2 from '../assets/author2.jfif'
-// import author3 from '../assets/author3.jfif'
-// import author4 from '../assets/author4.jfif'
-// import author5 from '../assets/author.jfif'
 
-import author from '../../public/images/Inioluwa.'
-import author2 from '../../public/images/Victor.jpg'
-import author3 from '../../public/images/Saaka.jpg'
-import author4 from '../../public/images/Meshack.jpg'
-import author5 from '../../public/images/Davidson.jpg'
+
+import author from '/public/images/Inioluwa.jpg'
+import author2 from '/public/images/Victor.jpg'
+import author3 from '/public/images/Saaka.jpg'
+import author4 from '/public/images/Meshach.jpg'
+import author5 from '/public/images/Davidson.jpg'
 
 const Author = () => {
   return (

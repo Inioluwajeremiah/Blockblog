@@ -66,9 +66,9 @@ const DashboardLeftNav = () => {
                     {/* <NavItem icon={<GoChecklist/>} title="Trending Posts" link="#trendingposts" /> */}
                     <div className='h-[1px] w-full bg-[#ddd] my-2'></div>
                     
-                    <NavItem icon={<AiFillLock/>} title="Change Password" link="/changepassword"/>
+                    {/* <NavItem icon={<AiFillLock/>} title="Change Password" link="/changepassword"/>
                     <NavItem icon={<AiFillLock/>} title="Reset Password" link="/resetpassword"/>
-                    <NavItem icon={<FiLogOut/>} title="SignOut" />
+                    <NavItem icon={<FiLogOut/>} title="SignOut" /> */}
                 
                 </ul>   
 

@@ -10,24 +10,17 @@ import { Link } from 'react-router-dom';
 import Image from '../assets/img2.jpg';
 import { BlockBlogContext } from '../context/BlockBlogContext';
 
-const FeaturedPost = ({authorsname, date, title}) => {
+const FeaturedPost = ({}) => {
 
   const {academyPosts, businessPosts, climatePosts, politicsPosts, technologyPosts } = useContext(BlockBlogContext)
 
-  const FeatureCard = () => {
-    return (
-      <div className=' p-3'>   <p className='text-sm text-stone-500 mb-1'>By {authorsname} <span className='border-l-2 border-stone-400 px-3'>{date}</span> </p>
-        <h3 className='font-bold text-2xl'>{title}</h3>
-      </div>
-     
-    )
-    
-  }
 
   let catArray = ['Academy', "Business", 'Climate' ,'Politics', 'Technology'];
-  const randomCat = Math.floor(Math.random()* catArray.length);
+  const randomCat = Math.floor(Math.random() * catArray.length);
 
-
+  let catsOfArticles = [academyPosts, businessPosts, climatePosts, politicsPosts, technologyPosts];
+  const catsRandomNumber = Math.floor(Math.random() * catsOfArticles.length) 
+  const selectedCat = catsOfArticles[catsRandomNumber];
   return (
     <section className='section'>
       <div className='container mx-auto'>
@@ -40,17 +33,27 @@ const FeaturedPost = ({authorsname, date, title}) => {
             data-aos-offset='600'
           >
             <h3 className='section-title'>Featured Post</h3>
-            <img src={Image} alt='' className=''/>
-            <p className='text-sm text-stone-500'>By Jeremiah Inioluwa <span className='border-l-2 border-stone-400 px-3'>Dec 1, 2022</span> </p>
+            {
+              selectedCat.slice(-1).map((item, index) => 
+                <div key={index}>
+                  <img src={item.imageuri} alt='' className=''/>
+                  <p className='text-sm text-stone-500'>By {item.author}  <span className='border-l-2 border-stone-400 px-3'>{item.date}</span> </p>
 
-            <h2 className='section-title'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, velit?</h2>
+                  <h2 className='section-title'>{item.title}</h2>
 
-            <button className='btn gap-x-6 px-6 text-sm lg:h-16 lg:text-base'>
-              Learn more
-              <IoIosArrowDroprightCircle className='text-2xl lg:text-3xl' />
-
-            </button>
-
+                  <Link to="/article" 
+                    state={{
+                      no: index, id: item.id, author_name: item.author, img: item.imageuri, 
+                      title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 
+                      authoradr: item.authorsadr, date: item.date, likes: item.likes, allcat: selectedCat }} >
+                     <button className='btn gap-x-6 px-6 text-sm lg:h-16 lg:text-base'>
+                        Learn more
+                        <IoIosArrowDroprightCircle className='text-2xl lg:text-3xl' />
+                      </button>
+                  </Link>
+                </div>
+              )
+            }
           </div>
 
           {/* text */}
