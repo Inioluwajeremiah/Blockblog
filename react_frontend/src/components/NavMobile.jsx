@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // import data
 import { navData } from './data';
@@ -21,7 +22,7 @@ const NavMobile = ({ setNavMobile }) => {
         {navData.map((item, index) => {
           return (
             <li key={index}>
-              <a href={item.href}>{item.name}</a>
+              <Link to={item.to}>{item.name}</Link>
             </li>
           );
         })}
