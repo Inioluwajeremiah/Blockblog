@@ -144,10 +144,10 @@ const DashboardMain = () => {
             //   }));
         
 
-    let displayContent = document.getElementById('displayContent')
-    if (postContent != '') {
-        displayContent.innerHTML = postContent
-    }
+    // let displayContent = document.getElementById('displayContent')
+    // if (postContent != '') {
+    //     displayContent.innerHTML = postContent
+    // }
 
     const changeCategory = (e) => {
         setCurrentCategory(e.target.value)
@@ -300,7 +300,7 @@ const DashboardMain = () => {
             }
 
             <InputLabel title="Content"/>
-            <div className='' id="#editorc">
+            <div className='max-h-[200px] overflow-y-scroll' id="#editorc" >
           {/* Ckeditor - a rich text editor */}
             <CKEditor
                 editor={ ClassicEditor }
@@ -315,10 +315,10 @@ const DashboardMain = () => {
             />
             </div>
             
-            <div id="displayContent" className="mx-4">
+            {/* <div id="displayContent" className="mx-4">
                 
                 
-            </div>
+            </div> */}
 
             <InputLabel title="Add Image"/>
             <input type="file" accept="image/*" onChange={GetFile} id="upload-btn"/>
