@@ -119,7 +119,7 @@ export const ContextProvider = ({children}) => {
     
     return (
         <BlockBlogContext.Provider value={{
-                connectWallet, blockAccount, BlogNetworkContract, blogCount, allPosts, 
+                connectWallet, blockAccount, BlogNetworkContract, blogCount,
                 retrievePosts, allPosts, contextLoading, academyPosts, businessPosts,
                 climatePosts, politicsPosts, technologyPosts, personalPosts
             }}>
