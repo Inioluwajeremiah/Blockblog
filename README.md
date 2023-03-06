@@ -11,4 +11,4 @@ Live preview is available at <code>https://blockbloghimark.000webhostapp.com</co
 6. Solidity
 7. Metamask
 
-You can check for recent articles under featured posts. To view a sample article, click on the Learn more button in the Landing page Section.
+You can check for recent articles under featured posts. To view a sample article, click on the 'Read more' button in the Landing page Section.
