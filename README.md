@@ -1,4 +1,5 @@
 ## Blogblog
+This is a group project by HgSol_himark.
 ### Short Description
 This is a decentralized blogging platform where authors can host rich contents for readers to digest. Articles hosted on this platform cover social, cultural, political, economic, academic and technological view points. Readers can also gift authors crypto tokens via the 'Buy Me Coffee' button. 
 Live preview is available at <code>https://blockbloghimark.000webhostapp.com</code>
