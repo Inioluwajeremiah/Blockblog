@@ -1,139 +1,93 @@
  // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 
-
 contract BlockBlog {
-    string public name; 
 
+    address payable public immutable contractOwnerAccount;
     uint public blogCounter;
     uint public profileCount;
 
-    // Likes[] likes;
-
-// create struct for each article
+    // create a constructor
+    constructor () {
+        contractOwnerAccount = payable(msg.sender);
+    }
+    
+    // create struct for each article
     struct Post {
         uint id;
-        string authorsName;
-        string postTitle;
-        string postCategory;
-        string postSubcategory;
-        string content;
-        address payable author;
-        string imageHash;
-        uint likes;
-        uint postDate;
+        address payable authors_address;
+        string publication_metadata;
     }
-
-//    create post event
+//    create post event for each publication
     event PostCreated(
-        uint id,
-        string authorsName,
-        string posTitle,
-        string postCategory,
-        string postSubcategory,
-        string content,
-        address author,
-        string imageHash
-    );
-    
-    event PostTipped(
-        uint id,
-        // string posTitle,
-        // string postCategory,
-        // string postSubcategory,
-        string content,
-        // uint256 postDate,
-        uint tip,
-        address payable author
-        // string imageHash
+        uint indexed id,
+        address authors_address,
+        string publication_metadata
     );
 
     // create struct for profile
     struct Profile {
         uint profileId;
-        string profileName;
-        string profileEmail;
-        string profileState;
-        string profileCountry;
-        string profileLocation;
-        string profileImageHash;
+        address payable profile_address;
+        string profile_metadata;
     }
 
+    // create event for author's profile 
     event ProfileEvent (
-        uint profileId,
-        string profileName,
-        string profileEmail,
-        string profileState,
-        string profileCountry,
-        string profileLocation,
-        string profileImageHash
+        uint indexed profileId,
+        address authors_address,
+        string profile_metadata
     );
 
-    mapping(uint=>Post) public blogPosts;
-    mapping(uint => Profile) public profiles;
- 
-    function createPost(string memory authorsname, string memory postTitle, string memory postCategory, string memory postSubcategory, string memory content, string memory imageHash) public{
-        
-        //incrementing posts
+    // create event for buymecoffe
+    event BuyMeCoffeeEvent(address authors_address, uint charged_amount, uint tipamount);
+
+    // create mapping for the publication
+    mapping (uint => Post) public blogPosts;
+    // mapping for profile
+    mapping (address => Profile) public profiles;
+
+
+    // function to create post
+    function createPost(string memory _metadata) public{  
+        //increment posts
         blogCounter++;
-        
-        // require a valid author's name
-        require(bytes(authorsname).length > 0, "Author's name is empty");
-        //require valid title
-        require(bytes(postTitle).length > 0, "Post title is empty");
-        //require valid category
-        require(bytes(postCategory).length > 0, "Post category  is empty");
-            //require valid sub category
-        require(bytes(postSubcategory).length > 0, "Post subcategory is empty");
-            //require valid content
-        require(bytes(content).length > 0, "Content  is empty");
-            //require valid author address
+        // require post metadata
+        require(bytes(_metadata).length > 0, "metadata is required");
+        //require valid author's address
         require(msg.sender!=address(0), "No valid address");
-            //require valid image hash from ipfs
-        require(bytes(imageHash).length > 0, "No hashed image uri");
-        
-        // string[] memory likeaddress;
-        // likeaddress[0] = '';
-        // //adding posts to the list of posts
-        //  likeaddress 
-        // string [] likeaddress;
-
-        blogPosts[blogCounter] = Post(blogCounter, authorsname, postTitle, postCategory, postSubcategory, content, payable(msg.sender), imageHash, 0, block.timestamp );
-        //trigger event 
-        emit PostCreated(blogCounter, authorsname, postTitle, postCategory, postSubcategory, content,payable(msg.sender), imageHash );
+        // save posts
+        blogPosts[blogCounter] = Post(blogCounter, payable(msg.sender), _metadata);
+        //emit event 
+        emit PostCreated(blogCounter, payable(msg.sender), _metadata );
     }
 
-    // function tipPost(uint idx) public payable{
-    //     //validate the id
-    //     require(idx>0 && idx<=blogCounter);
-    //     // fetch the post based on id and increment the tip amount of the desired author
-    //     Post memory _t = blogPosts[idx];
-    //     address payable _author = _t.author;
-    //     // transfer the amount of paid ether to author
-    //     _t.author.transfer(msg.value);
-    //     // increment tip amount reflected on website
-    //     // _t.tip+= msg.value;
-    //     // update the post with incremented tip amount
-    //     blogPosts[idx] = _t;
-    //     emit PostTipped(idx, _t.content, _t.tip, _author);
-    // }
-
-    function Like (uint _id) external {
-       
-        Post storage post = blogPosts[_id];
-        
-        // for (uint i=0; i<=post.likeaddress.length; i++) {
-        //     // if (post.likeaddress[i] != blockaccount) post.likes += 1;
-        //     require(keccak256(bytes(post.likeaddress[i])) != keccak256(abi.encodePacked(msg.sender)), "Address already liked this post");
-        //     post.likes += 1;
-        // }
-        post.likes += 1;
-    }
-
-    function CreateProfile (string memory _profileName, string memory _profileEmail, string memory _profileCountry, string memory _profileState,  string memory _profileLocation, string  memory _imageHash) public {
+    function CreateProfile (string memory _metadata) public {
         profileCount += 1;
 
-        profiles[profileCount] = Profile(profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation, _imageHash);
-        emit ProfileEvent (profileCount, _profileName, _profileEmail, _profileCountry, _profileState, _profileLocation, _imageHash);
+        // require profile metadata 
+        require(bytes(_metadata).length > 0, "metadata is required");
+        //require valid author location address
+        require(msg.sender!=address(0), "A valid address is required");
+        // save profile
+        profiles[msg.sender] = Profile(profileCount, payable(msg.sender), _metadata);
+        emit ProfileEvent (profileCount, payable(msg.sender), _metadata);
+    }
+
+    function BuyMeCoffee(address payable authors_address, uint amount ) public payable {
+
+        //require valid author location address
+        require(msg.sender!=address(0), "A valid address is required");
+        // require profile metadata 
+        require(amount > 0, "Amount must be greater than 0");
+        
+        // ctreate charge fee based on a 1% charge
+        uint charge_fee = amount * 1/100;
+        // transfer amount due to author and charged fee to the blog owner (contractOwnerAccount)
+        uint tip_amount = amount - charge_fee;
+        authors_address.transfer(tip_amount);
+        contractOwnerAccount.transfer(charge_fee); 
+
+        emit BuyMeCoffeeEvent(authors_address, charge_fee, tip_amount);
     }
 }

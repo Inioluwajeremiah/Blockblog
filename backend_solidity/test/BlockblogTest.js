@@ -1,74 +1,99 @@
 const {
-  time,
-  loadFixture,
-} = require("@nomicfoundation/hardhat-network-helpers");
-const { expect } = require("chai");
+    time,
+    loadFixture,
+  } = require("@nomicfoundation/hardhat-network-helpers");
+  const { expect } = require("chai");
 
-describe ("BlockBlog",  () => {
-
-  const load_fixtures = async () => {
+// convert ether to wei using the parseEther method
+const toWei = (eth) => ethers.utils.parseEther(eth.toString())
+// convert wei to ether using the formatEther method
+const fromWei = (eth) => ethers.utils.formatEther(eth)
+const toBytes = (byt) => ethers.utils.formatBytes32String(byt);
+  
+  describe ("BlockBlog",  () => {
+  
+    const load_fixtures = async () => {
     const BlockBlog = await ethers.getContractFactory("BlockBlog");
     const blockBlog = await BlockBlog.deploy();
-    const [userAccount] = await ethers.getSigners()
-
-    return {BlockBlog, blockBlog, userAccount}
-  }
-
-  describe ("check Posts", () => {
-    
-    it ("Create Post", async () => {
-      const {blockBlog, userAccount} = await loadFixture(load_fixtures);
-
-      console.log("user account", userAccount.address);
-      await (expect(blockBlog.createPost("author 1", "title1", "cat1", "subcat1", "content1", "imagehsh1"))).
-      to.emit(blockBlog, "PostCreated").withArgs(1, "author 1", "title1", "cat1", "subcat1", "content1", userAccount.address, "imagehsh1");
-
-      expect(await blockBlog.blogCounter()).to.equal(1);
-
-      const blockpost = await blockBlog.blogPosts(1)
-
-      expect( blockpost.id).to.equal(1)
-      expect(blockpost.authorsName).to.equal("author 1")
-      expect(blockpost.postTitle).to.equal("title1")
-      expect(blockpost.postCategory).to.equal("cat1")
-      expect(blockpost.postSubcategory).to.equal("subcat1")
-      expect(blockpost.content).to.equal("content1")
-      expect(blockpost.imageHash).to.equal("imagehsh1")
-      expect(blockpost.author).to.equal(userAccount.address)
-    })
-
-    it ("Test for post input validation", async () => {
-      const {blockBlog, userAccount} = await loadFixture(load_fixtures);
-
-      await (expect(blockBlog.createPost("", "title1", "cat1", "subcat1", "content1", "imagehsh1"))).
-      to.be.revertedWith("Author's name is empty")
-      await (expect(blockBlog.createPost("author", "", "cat", "subcat1", "content1", "imagehsh1"))).
-      to.be.revertedWith("Post title is empty")
-      await (expect(blockBlog.createPost("author", "title", "", "subcat1", "content1", "imagehsh1"))).
-      to.be.revertedWith("Post category  is empty")
-      await (expect(blockBlog.createPost("author", "title1", "cat1", "", "content1", "imagehsh1"))).
-      to.be.revertedWith("Post subcategory is empty")
-      await (expect(blockBlog.createPost("author", "title1", "cat1", "subcat1", "", "imagehsh1"))).
-      to.be.revertedWith("Content  is empty")
-      await (expect(blockBlog.createPost("author", "title1", "cat1", "subcat1", "content1", ""))).
-      to.be.revertedWith("No hashed image uri")
-
-      console.log(await blockBlog.blogCounter());
-
-    })
-  })
-
-  describe("Test for article Interactions", () => {
-
-    it( "Like", async () => {
-      const {blockBlog, userAccount} = await loadFixture(load_fixtures);
-
-      await blockBlog.Like(1)
-      // const post = blockBlog.blogCounter(1)
-      expect((await blockBlog.blogPosts(1)).likes).to.equal(1)
+    const [userAccount, accountTwo, accountThree] = await ethers.getSigners()
+  
+      return {BlockBlog, blockBlog, userAccount, accountTwo, accountThree}
+    }
+  
+    describe ("check Posts", () => {
       
+      it ("Create Post", async () => {
+        const {blockBlog, userAccount} = await loadFixture(load_fixtures);
+  
+        console.log("user account", userAccount.address);
+        await (expect(blockBlog.createPost("post meta data"))).
+        to.emit(blockBlog, "PostCreated").withArgs(1, userAccount.address, "post meta data");
+  
+        expect(await blockBlog.blogCounter()).to.equal(1);
+  
+        const blockpost = await blockBlog.blogPosts(1)
+  
+        expect( blockpost.id).to.equal(1)
+        expect(blockpost.publication_metadata).to.equal("post meta data")
+        expect(blockpost.authors_address).to.equal(userAccount.address)
+      })
+  
+      it ("Test for input validation at createPost", async () => {
+        const {blockBlog, userAccount} = await loadFixture(load_fixtures);
+  
+        await (expect(blockBlog.createPost(""))).to.be.revertedWith("metadata is required")
+
+        console.log(await blockBlog.blogCounter());
+  
+      })
     })
 
+    describe ("Create profile", () => {
+
+      it ("Test for 'Create profile' function ", async () => {
+        const {blockBlog, userAccount} = await loadFixture(load_fixtures)
+
+        console.log("user account", userAccount.address)
+        await (expect(blockBlog.CreateProfile("profile meta data"))).to.emit(blockBlog, "ProfileEvent").withArgs(1, userAccount.address, "profile meta data")
+
+        expect(await blockBlog.profileCount()).to.equal(1);
+
+        const profiles = await blockBlog.profiles(userAccount.address)
+
+        expect(profiles.profileId).to.equal(1)
+        expect(profiles.profile_metadata).to.equal("profile meta data")
+        expect(profiles.profile_address).to.equal(userAccount.address)
+      })
+  
+      it ("Test for input validation at create profile", async () => {
+        const {blockBlog, userAccount} = await loadFixture(load_fixtures);
+  
+        await (expect(blockBlog.CreateProfile(""))).to.be.revertedWith("metadata is required")
+      })
+
+    })
+
+    describe ("BuyMeCoffee", () => {
+
+      it ("Test for' BuyMeCoffee' function", async () => {
+          const {blockBlog, userAccount, accountTwo, accountThree} = await loadFixture(load_fixtures);
+
+          let amount = toWei(0.005)
+          let charge_fee = amount * 1 / 100
+          let tip_amt = amount - charge_fee
+
+          console.log(amount, charge_fee, tip_amt);
+          console.log("account two address =>", accountTwo.address);
+
+
+          // set accounttwo to buy product and test for emitted values
+          await expect(blockBlog.connect(accountTwo).BuyMeCoffee(accountThree.address, amount, {value: amount})).to.emit(blockBlog, "BuyMeCoffeeEvent").withArgs(accountThree.address, charge_fee, tip_amt)
+      })
+
+      it ("Test for input validation at  buyme coffee", async () => {
+          const {blockBlog, userAccount, accountTwo, accountThree} = await loadFixture(load_fixtures);
+  
+          await (expect(blockBlog.connect(accountTwo).BuyMeCoffee(accountThree.address, 0))).to.be.revertedWith("Amount must be greater than 0")
+      })
+    })
   })
- 
-})
