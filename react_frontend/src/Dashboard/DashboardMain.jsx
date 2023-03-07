@@ -208,18 +208,61 @@ const DashboardMain = () => {
         console.log(BlogNetworkContract);
         // await (await marketContract.CreateNFTItem(transactionId, PriceTag, tokenContract.address)).wait();
         // await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
-        try {
-            if (!authorsname || !postTitle || !currentCategory || !currentSubCategory || !postContent || !imageHashResult) {
-                alert("input all fields") 
-                setLoading(false) 
-            } else { 
-                await BlogNetworkContract.createPost(authorsname, postTitle, currentCategory, currentSubCategory,postContent, imageHashResult);
+        if(!blockAccount) alert("Connect crypto wallet")
+        if (!authorsname || !postTitle || !currentCategory || !currentSubCategory || !postContent || !imageHashResult) {
+            alert("input all fields") 
+            setLoading(false) 
+        } else { 
+            try {
+
+                const data_data = JSON.stringify({
+                    "pinataOptions": {
+                    "cidVersion": 1
+                    },
+                    "pinataMetadata": {
+                    "name": "AgtToken",
+                    "keyvalues": {
+                        customeKey1: 'customValue1',
+                        customKey2: 'customValue2'
+                    }
+                    },
+                    "pinataContent": {
+                        authorsname: authorsname,
+                        postTitle: postTitle,
+                        currentCategory: currentCategory,
+                        currentSubCategory: currentSubCategory,
+                        postContent: postContent,
+                        imageHashResult: imageHashResult,
+                        date: new Date(),
+                        walletAddress: blockAccount
+                    }
+                });
+        
+                console.log("data data => ", data_data);
+        
+                const config = {
+                    method: 'post',
+                    url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+                    headers: { 
+                    'Content-Type': 'application/json', 
+                    "Authorization": 'Bearer ' + import.meta.env.VITE_PINATA_API_JWT
+                    },
+                    data : data_data
+                };
+                
+                const result = await axios(config);
+                
+                console.log("result data => ", result.data);
+                // const result = await client.add(JSON.stringify({imageUri, nftTitle, nftDescription})) 
+                // uploadProduct(result) 
+                const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
+                await BlogNetworkContract.createPost(uri);
                 setLoading(false) 
                 
-            }
-        } catch (error) {
-            alert(error)
-            setLoading(false)
+                } catch (error) {
+                alert(error)
+                setLoading(false) 
+            } 
         }
     }
 

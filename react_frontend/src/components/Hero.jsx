@@ -28,7 +28,7 @@ const Hero = () => {
        
 
         {
-          selectedCat.slice(-1).map((item, index) => 
+          technologyPosts.slice(-1).map((item, index) => 
             <div key={index}>
               {/* hero text */}
                 <div className='lg:w-1/2 z-[1]' >
@@ -41,14 +41,13 @@ const Hero = () => {
                   >
                     {item.title}
                   </h1>
-                  <p
+                  <p dangerouslySetInnerHTML={{__html: item.content.slice(0,150)+"...."}}
                     className='max-w-[440px] leading-relaxed mb-8 text-white'
                     data-aos='fade-down'
                     data-aos-delay='700'
                   >
-                  {item.content.slice(0,150)}...
                   </p>
-                  <Link to='/articles'
+                  <Link to='/article'
                       state={{
                         no: index, id: item.id, author_name: item.author, img: item.imageuri, 
                         title: item.title, cat: item.cat, subcat: item.subcat, content: item.content, 

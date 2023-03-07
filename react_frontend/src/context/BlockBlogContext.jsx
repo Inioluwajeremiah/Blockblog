@@ -1,19 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { ethers } from 'ethers'
-
+import { utils } from 'ethers';
 // import contract and abi
 import { BlockBlogAddress, BlockNetworkABI } from '../../BlockBlogContractData';
 
+// create context
 export const BlockBlogContext = React.createContext();
 
-// check if meamask is installed on windows and if not alert user to install one 
+// check if metamask is installed on windows and if not alert user to install one 
 if(!window.ethereum) alert("Install a cryptocurrency wallet to continue")
 
 // get the blockchain provider and contract abstraction
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner()
 const BlogNetworkContract = new ethers.Contract(BlockBlogAddress, BlockNetworkABI, signer);
-
+// console.log(BlogNetworkContract);
 
 export const ContextProvider = ({children}) => {
     const [blockAccount, setBlockAccount] = useState('');
@@ -27,17 +28,15 @@ export const ContextProvider = ({children}) => {
     const [technologyPosts, setTechnologyPosts] = useState([]);
     const [personalPosts, setPersonalPosts] = useState([]);
 
-
+    // console.log("Blog address => ", BlockBlogAddress);
     // retrieve all articles posted
-    const retrievePosts = async () =>  {
-       
+    const retrievePosts = async () =>  {       
         setContextLoading(true)
         try {
-            let blogCounter =  await BlogNetworkContract.blogCounter();
-            console.log("posts => ", blogCounter.toString());
+            const blogCounter =  await BlogNetworkContract.blogCounter();
             const blogCount= blogCounter.toString();
             setBlogCount(blogCount);
-            console.log("blogCount => ", blogCount);
+            console.log("blogCount => ", blogCount.length);
 
             let postArray = [];
             let academyArray = [];
@@ -48,35 +47,40 @@ export const ContextProvider = ({children}) => {
             let personalArray = [];
 
             for (let i = 1; i <= blogCount; i++) {
-                    console.log("index ", i);
-                let post = await BlogNetworkContract.blogPosts(i);
+                console.log("index ", i);
+                const post = await BlogNetworkContract.blogPosts(i);
+        
+
+                const response = await fetch(post.publication_metadata);
+                const metadata = await response.json();
+
                 console.log("blog post => ", post);
                 let postdata = {
-                    id: post.id.toString(),
-                    author: post.authorsName,
-                    title: post.postTitle,
-                    cat: post.postCategory,
-                    subcat: post.postSubcategory,
-                    content: post.content,
-                    authorsadr: post.author,
-                    imageuri: post.imageHash,
-                    likes: post.likes.toString(),
-                    date: new Date(post.postDate.toNumber()).toLocaleDateString()
+                    id: post.id,
+                    title: metadata.postTitle,
+                    cat: metadata.currentCategory,
+                    subcat: metadata.currentSubCategory,
+                    content: metadata.postContent,
+                    authorsadr: metadata.walletAddress,
+                    imageuri: metadata.imageHashResult,
+                    date: metadata.date,
+                    author: metadata.authorsname
+                    // new Date(metadata.date.toNumber()).toLocaleDateString()
                 }
                 // get all articles
                 postArray.push(postdata)
                 // get academy articles
-                if (post.postCategory == "Academy") academyArray.push(postdata)
+                if (metadata.currentCategory == "Academy") academyArray.push(postdata)
                 // get business articles
-                if (post.postCategory == "Business") businessArray.push(postdata)
+                if (metadata.currentCategory == "Business") businessArray.push(postdata)
                 // get climate articles
-                if (post.postCategory == "Climate") climateArray.push(postdata)
+                if (metadata.currentCategory == "Climate") climateArray.push(postdata)
                 // get politics articles
-                if (post.postCategory == "Politics") politicsArray.push(postdata)
+                if (metadata.currentCategory == "Politics") politicsArray.push(postdata)
                 // get all technology articles
-                if (post.postCategory == "Technology") techArray.push(postdata)
+                if (metadata.currentCategory == "Technology") techArray.push(postdata)
                 // get articles posted by the author
-                if (post.author.toLowerCase() == blockAccount) personalArray.push(postdata);
+                if (metadata.walletAddress.toLowerCase() == blockAccount) personalArray.push(postdata);
                
               }
               setAcademyPosts(academyArray);
@@ -107,16 +111,13 @@ export const ContextProvider = ({children}) => {
             await provider.send("eth_requestAccounts", []);
         }
     }
-    
-    useEffect(() => {
-       
-        connectWallet()
-        retrievePosts()
-       
-    }, [])
-   
 
     
+    useEffect(() => {
+        connectWallet()
+        retrievePosts()
+    }, [])
+   
     return (
         <BlockBlogContext.Provider value={{
                 connectWallet, blockAccount, BlogNetworkContract, blogCount,
@@ -127,3 +128,4 @@ export const ContextProvider = ({children}) => {
         </BlockBlogContext.Provider>
     );
 }
+
